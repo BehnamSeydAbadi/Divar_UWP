@@ -14,6 +14,7 @@ namespace Divar_UWP.ViewModels
     {
         private readonly IDivarCategoryService _categoryService;
         private readonly IDivarSelectionStore _selectionStore;
+        private readonly INavigationService _navigation;
         private readonly Stack<CategoryLevel> _history = new Stack<CategoryLevel>();
         private IList<DivarCategory> _roots = new List<DivarCategory>();
         private bool _isLoading;
@@ -23,11 +24,12 @@ namespace Divar_UWP.ViewModels
         private string _statusMessage;
         private bool _canGoUp;
 
-        public CategoriesViewModel(IDivarCategoryService categoryService, IDivarSelectionStore selectionStore)
+        public CategoriesViewModel(IDivarCategoryService categoryService, IDivarSelectionStore selectionStore, INavigationService navigation)
             : base("دسته‌بندی‌ها")
         {
             _categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
             _selectionStore = selectionStore ?? throw new ArgumentNullException(nameof(selectionStore));
+            _navigation = navigation ?? throw new ArgumentNullException(nameof(navigation));
             Categories = new ObservableCollection<DivarCategory>();
             CurrentTitle = "همهٔ دسته‌بندی‌ها";
         }
@@ -88,7 +90,11 @@ namespace Divar_UWP.ViewModels
             }
             else
             {
-                StatusMessage = "دستهٔ «" + category.Name + "» انتخاب شد؛ خوراک آن در برش بعدی متصل می‌شود.";
+                _navigation.Navigate(typeof(Views.PostListPage), new DivarFeedNavigationParameter
+                {
+                    CategorySlug = string.IsNullOrWhiteSpace(category.Slug) ? category.Token : category.Slug,
+                    Title = category.Name
+                });
             }
         }
 

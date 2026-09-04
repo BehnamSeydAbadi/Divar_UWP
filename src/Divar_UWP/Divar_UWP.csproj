@@ -135,6 +135,8 @@
     </Compile>
     <Compile Include="Converters\NamespaceInfo.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="Converters\ThumbnailConverter.cs" />
     <Compile Include="Infrastructure\AppServices.cs" />
     <Compile Include="Infrastructure\DivarApiClient.cs" />
     <Compile Include="Infrastructure\DivarApiOptions.cs" />
@@ -145,6 +147,7 @@
     <Compile Include="Infrastructure\IDivarCredentialProvider.cs" />
     <Compile Include="Infrastructure\IDivarSelectionStore.cs" />
     <Compile Include="Infrastructure\INavigationService.cs" />
+    <Compile Include="Infrastructure\IncrementalPostCollection.cs" />
     <Compile Include="Infrastructure\NavigationService.cs" />
     <Compile Include="Infrastructure\ObservableObject.cs" />
     <Compile Include="Infrastructure\RelayCommand.cs" />
@@ -158,6 +161,7 @@
     <Compile Include="Models\DivarChatSession.cs" />
     <Compile Include="Models\DivarCity.cs" />
     <Compile Include="Models\DivarPage.cs" />
+    <Compile Include="Models\DivarFeedNavigationParameter.cs" />
     <Compile Include="Models\DivarPostDetails.cs" />
     <Compile Include="Models\DivarPostSummary.cs" />
     <Compile Include="Models\DivarSearchRequest.cs" />
@@ -166,6 +170,7 @@
     <Compile Include="Services\IDivarAuthService.cs" />
     <Compile Include="Services\DivarCategoryService.cs" />
     <Compile Include="Services\DivarCityService.cs" />
+    <Compile Include="Services\DivarSearchService.cs" />
     <Compile Include="Services\IDivarBookmarkService.cs" />
     <Compile Include="Services\IDivarCategoryService.cs" />
     <Compile Include="Services\IDivarChatService.cs" />

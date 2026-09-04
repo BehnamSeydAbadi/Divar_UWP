@@ -43,6 +43,8 @@
             <SolidColorBrush x:Key="DivarAccentBrush" Color="{StaticResource DivarAccentColor}" />
             <SolidColorBrush x:Key="DivarAccentTintBrush" Color="#22E14444" />
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+            <converters:ThumbnailConverter x:Key="ThumbnailConverter" />
 
             <Style x:Key="DivarPageTitleStyle" TargetType="TextBlock">
                 <Setter Property="Foreground" Value="{ThemeResource DivarTextBrush}" />

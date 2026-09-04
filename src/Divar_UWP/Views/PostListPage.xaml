@@ -7,24 +7,59 @@
     mc:Ignorable="d" FlowDirection="RightToLeft" Background="{ThemeResource DivarPageBrush}">
     <Grid>
         <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
-        <StackPanel Padding="20,16,20,12">
-            <TextBlock Text="{Binding Title}" Style="{StaticResource DivarPageTitleStyle}" />
-            <ScrollViewer Margin="0,14,0,0" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Disabled">
-                <StackPanel Orientation="Horizontal">
-                    <Button Margin="0,0,8,0" Content="محله" Style="{StaticResource DivarSecondaryButtonStyle}" />
-                    <Button Margin="0,0,8,0" Content="قیمت" Style="{StaticResource DivarSecondaryButtonStyle}" />
-                    <Button Margin="0,0,8,0" Content="عکس‌دار" Style="{StaticResource DivarSecondaryButtonStyle}" />
-                    <Button Content="مرتب‌سازی" Style="{StaticResource DivarSecondaryButtonStyle}" />
-                </StackPanel>
-            </ScrollViewer>
-        </StackPanel>
+        <TextBlock Padding="20,14,20,12" Text="{Binding FeedTitle}" Style="{StaticResource DivarPageTitleStyle}" />
         <Border Grid.Row="1" BorderBrush="{ThemeResource DivarDividerBrush}" BorderThickness="0,1,0,0">
-            <StackPanel Margin="24" MaxWidth="440" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                <TextBlock Text="&#xE8A5;" FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource DivarSubtleTextBrush}" FontSize="42" HorizontalAlignment="Center" />
-                <TextBlock Margin="0,14,0,6" Text="هنوز آگهی‌ای نمایش داده نشده" Style="{StaticResource DivarSectionTitleStyle}" HorizontalAlignment="Center" />
-                <TextBlock Text="خوراک و صفحه‌بندی در برش بعدی به سرویس دیوار متصل می‌شوند." Style="{StaticResource DivarBodyStyle}" TextAlignment="Center" />
-                <Button Margin="0,22,0,0" Content="پیش‌نمایش جزئیات" Command="{Binding ShowPostDetailsCommand}" HorizontalAlignment="Stretch" Style="{StaticResource DivarPrimaryButtonStyle}" />
-            </StackPanel>
+            <Grid>
+                <ListView ItemsSource="{Binding Posts}"
+                          IncrementalLoadingTrigger="Edge"
+                          IncrementalLoadingThreshold="2"
+                          SelectionMode="None"
+                          IsItemClickEnabled="False">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Margin" Value="0" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid MinHeight="116" Padding="16,10" BorderBrush="{ThemeResource DivarDividerBrush}" BorderThickness="0,0,0,1">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="104" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                                <Border Width="96" Height="96" CornerRadius="4" Background="{ThemeResource DivarElevatedSurfaceBrush}" HorizontalAlignment="Right">
+                                    <Image Source="{Binding ThumbnailUrl, Converter={StaticResource ThumbnailConverter}}" Stretch="UniformToFill" />
+                                </Border>
+                                <Grid Grid.Column="1" Margin="12,0,0,0">
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                                    <TextBlock Text="{Binding Title}" Foreground="{ThemeResource DivarTextBrush}" FontSize="15" FontWeight="SemiBold" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" />
+                                    <StackPanel Grid.Row="1" VerticalAlignment="Bottom">
+                                        <TextBlock Text="{Binding TopDescription}" Style="{StaticResource DivarBodyStyle}" Visibility="{Binding TopDescription, Converter={StaticResource StringToVisibilityConverter}}" TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="{Binding MiddleDescription}" Foreground="{ThemeResource DivarTextBrush}" FontSize="14" TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                    <TextBlock Grid.Row="2" Text="{Binding BottomDescription}" Foreground="{ThemeResource DivarMutedTextBrush}" FontSize="12" TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Grid.Row="3" Margin="0,3,0,0" Text="{Binding BadgeText}" Foreground="{StaticResource DivarAccentBrush}" FontSize="12" Visibility="{Binding BadgeText, Converter={StaticResource StringToVisibilityConverter}}" />
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.Footer>
+                        <ProgressRing Margin="0,14" Width="26" Height="26" IsActive="{Binding IsLoadingNextPage}" Visibility="{Binding IsLoadingNextPage, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    </ListView.Footer>
+                </ListView>
+
+                <StackPanel Margin="24" VerticalAlignment="Center" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <ProgressRing IsActive="True" Width="34" Height="34" />
+                    <TextBlock Margin="0,12,0,0" Text="در حال دریافت آگهی‌ها…" Style="{StaticResource DivarBodyStyle}" TextAlignment="Center" />
+                </StackPanel>
+                <StackPanel Margin="24" VerticalAlignment="Center" Visibility="{Binding HasError, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock Text="{Binding ErrorMessage}" Style="{StaticResource DivarBodyStyle}" TextAlignment="Center" />
+                    <Button Margin="0,18,0,0" Content="تلاش دوباره" Click="OnRetryClick" Style="{StaticResource DivarPrimaryButtonStyle}" />
+                </StackPanel>
+                <StackPanel Margin="24" VerticalAlignment="Center" Visibility="{Binding IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock Text="&#xE8A5;" FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource DivarSubtleTextBrush}" FontSize="42" HorizontalAlignment="Center" />
+                    <TextBlock Margin="0,14,0,0" Text="آگهی‌ای پیدا نشد" Style="{StaticResource DivarSectionTitleStyle}" HorizontalAlignment="Center" />
+                </StackPanel>
+            </Grid>
         </Border>
     </Grid>
 </Page>

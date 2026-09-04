@@ -16,5 +16,7 @@ namespace Divar_UWP.Models
         public string CategorySlug { get; set; }
 
         public string PaginationDataJson { get; set; }
+
+        public string SearchDataJson { get; set; }
     }
 }

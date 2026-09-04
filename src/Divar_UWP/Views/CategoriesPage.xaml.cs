@@ -18,7 +18,7 @@ namespace Divar_UWP.Views
         public CategoriesPage()
         {
             InitializeComponent();
-            _viewModel = new CategoriesViewModel(AppServices.Current.CategoryService, AppServices.Current.SelectionStore);
+            _viewModel = new CategoriesViewModel(AppServices.Current.CategoryService, AppServices.Current.SelectionStore, AppServices.Current.Navigation);
             DataContext = _viewModel;
         }
 

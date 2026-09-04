@@ -14,5 +14,7 @@ namespace Divar_UWP.Models
         public bool HasNextPage { get; set; }
 
         public string PaginationDataJson { get; set; }
+
+        public string SearchDataJson { get; set; }
     }
 }

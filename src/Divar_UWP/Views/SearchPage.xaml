@@ -8,19 +8,21 @@
     <Grid Padding="20">
         <StackPanel MaxWidth="480" HorizontalAlignment="Stretch">
             <TextBlock Text="{Binding Title}" Style="{StaticResource DivarPageTitleStyle}" />
-            <TextBox Margin="0,18,0,12" Style="{StaticResource DivarTextBoxStyle}" PlaceholderText="جستجو در همهٔ آگهی‌ها" />
-            <ScrollViewer HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Disabled">
-                <StackPanel Orientation="Horizontal">
-                    <Button Margin="0,0,8,0" Content="دسته‌بندی" Style="{StaticResource DivarSecondaryButtonStyle}" />
-                    <Button Margin="0,0,8,0" Content="محله" Style="{StaticResource DivarSecondaryButtonStyle}" />
-                    <Button Content="فیلترها" Style="{StaticResource DivarSecondaryButtonStyle}" />
-                </StackPanel>
-            </ScrollViewer>
+            <TextBox Margin="0,18,0,12" Style="{StaticResource DivarTextBoxStyle}" PlaceholderText="مثلاً پراید"
+                     Text="{Binding Query, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" KeyDown="OnSearchKeyDown" />
             <Button Margin="0,24,0,0" Content="نمایش نتایج" Command="{Binding ShowResultsCommand}" HorizontalAlignment="Stretch" Style="{StaticResource DivarPrimaryButtonStyle}" />
-            <TextBlock Margin="0,30,0,12" Text="جستجوهای پیشنهادی" Style="{StaticResource DivarSectionTitleStyle}" />
-            <Border Background="{ThemeResource DivarSurfaceBrush}" BorderBrush="{ThemeResource DivarDividerBrush}" BorderThickness="1" Padding="16">
-                <TextBlock Text="با وارد کردن عبارت، پیشنهادهای مرتبط اینجا نمایش داده می‌شوند." Style="{StaticResource DivarBodyStyle}" />
-            </Border>
+            <ProgressRing Margin="0,24,0,0" Width="24" Height="24" IsActive="{Binding IsLoadingSuggestions}" Visibility="{Binding IsLoadingSuggestions, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <TextBlock Margin="0,16,0,0" Text="{Binding SuggestionMessage}" Style="{StaticResource DivarBodyStyle}" Visibility="{Binding SuggestionMessage, Converter={StaticResource StringToVisibilityConverter}}" />
+            <ListView Margin="0,18,0,0" ItemsSource="{Binding Suggestions}" IsItemClickEnabled="True" ItemClick="OnSuggestionClick" SelectionMode="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Padding="12,10">
+                            <TextBlock Text="{Binding Title}" Foreground="{ThemeResource DivarTextBrush}" FontSize="15" />
+                            <TextBlock Text="{Binding Subtitle}" Style="{StaticResource DivarBodyStyle}" Visibility="{Binding Subtitle, Converter={StaticResource StringToVisibilityConverter}}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackPanel>
     </Grid>
 </Page>

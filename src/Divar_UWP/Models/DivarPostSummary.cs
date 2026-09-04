@@ -13,5 +13,15 @@ namespace Divar_UWP.Models
         public string BottomDescription { get; set; }
 
         public string ThumbnailUrl { get; set; }
+
+        public string BadgeText { get; set; }
+
+        public string LocationText { get; set; }
+
+        public int ImageCount { get; set; }
+
+        public bool HasChat { get; set; }
+
+        public bool HasBadge { get { return !string.IsNullOrWhiteSpace(BadgeText); } }
     }
 }
