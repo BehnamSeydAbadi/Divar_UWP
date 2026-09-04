@@ -4,16 +4,41 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    FlowDirection="RightToLeft"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <Grid Padding="24">
-        <StackPanel MaxWidth="480" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-            <TextBlock Text="{Binding Title}" FontSize="32" FontWeight="SemiBold" />
-            <TextBlock Margin="0,12,0,24" Text="اسکلت بومی صفحه اصلی؛ بدون نمای وب و بدون دادهٔ آزمایشی شبکه." TextWrapping="Wrap" />
-            <Button Content="جستجو" Command="{Binding SearchCommand}" HorizontalAlignment="Stretch" />
-            <Button Margin="0,12,0,0" Content="مشاهده فهرست آگهی‌ها" Command="{Binding BrowseCommand}" HorizontalAlignment="Stretch" />
+    mc:Ignorable="d" FlowDirection="RightToLeft" Background="{ThemeResource DivarPageBrush}">
+    <ScrollViewer>
+        <StackPanel Padding="20" MaxWidth="480" HorizontalAlignment="Stretch">
+            <TextBlock Text="{Binding Title}" Style="{StaticResource DivarPageTitleStyle}" />
+            <TextBlock Margin="0,6,0,18" Text="خرید و فروش بی‌واسطه در تهران" Style="{StaticResource DivarBodyStyle}" />
+            <Button Command="{Binding SearchCommand}" HorizontalAlignment="Stretch" Background="{ThemeResource DivarFieldBrush}" BorderBrush="{ThemeResource DivarDividerBrush}" BorderThickness="1" MinHeight="48" HorizontalContentAlignment="Stretch">
+                <Grid>
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                    <TextBlock Text="جستجو در همهٔ آگهی‌ها" Foreground="{ThemeResource DivarMutedTextBrush}" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="1" Text="&#xE721;" FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource DivarMutedTextBrush}" FontSize="17" VerticalAlignment="Center" />
+                </Grid>
+            </Button>
+            <TextBlock Margin="0,28,0,14" Text="دسته‌بندی‌ها" Style="{StaticResource DivarSectionTitleStyle}" />
+            <Grid>
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Margin="0,0,4,0" Content="املاک" Command="{Binding BrowseCommand}" Style="{StaticResource DivarSecondaryButtonStyle}" />
+                <Button Grid.Column="1" Margin="4,0" Content="وسایل نقلیه" Command="{Binding BrowseCommand}" Style="{StaticResource DivarSecondaryButtonStyle}" />
+                <Button Grid.Column="2" Margin="4,0,0,0" Content="کالای دیجیتال" Command="{Binding BrowseCommand}" Style="{StaticResource DivarSecondaryButtonStyle}" />
+            </Grid>
+            <Grid Margin="0,8,0,0">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Margin="0,0,4,0" Content="خانه" Command="{Binding BrowseCommand}" Style="{StaticResource DivarSecondaryButtonStyle}" />
+                <Button Grid.Column="1" Margin="4,0" Content="خدمات" Command="{Binding BrowseCommand}" Style="{StaticResource DivarSecondaryButtonStyle}" />
+                <Button Grid.Column="2" Margin="4,0,0,0" Content="استخدام" Command="{Binding BrowseCommand}" Style="{StaticResource DivarSecondaryButtonStyle}" />
+            </Grid>
+            <Grid Margin="0,28,0,12">
+                <TextBlock Text="تازه‌ترین آگهی‌ها" Style="{StaticResource DivarSectionTitleStyle}" />
+                <Button Content="مشاهده همه" Command="{Binding BrowseCommand}" HorizontalAlignment="Left" Background="Transparent" Foreground="{StaticResource DivarAccentBrush}" BorderThickness="0" />
+            </Grid>
+            <Border Background="{ThemeResource DivarSurfaceBrush}" BorderBrush="{ThemeResource DivarDividerBrush}" BorderThickness="1" Padding="18,22">
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock Text="&#xE8A5;" FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource DivarSubtleTextBrush}" FontSize="30" HorizontalAlignment="Center" />
+                    <TextBlock Margin="0,10,0,0" Text="آگهی‌ها پس از اتصال سرویس نمایش داده می‌شوند" Style="{StaticResource DivarBodyStyle}" TextAlignment="Center" />
+                </StackPanel>
+            </Border>
         </StackPanel>
-    </Grid>
+    </ScrollViewer>
 </Page>

@@ -6,42 +6,93 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     FlowDirection="RightToLeft"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource DivarPageBrush}">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Border Padding="16,10" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-            <TextBlock Text="Divar_UWP" Foreground="White" FontSize="20" FontWeight="SemiBold" />
+        <Border Padding="6,2" Background="{ThemeResource DivarSurfaceBrush}" BorderBrush="{ThemeResource DivarDividerBrush}" BorderThickness="0,0,0,1">
+            <Grid FlowDirection="LeftToRight">
+                <TextBlock Text="دیوار" Foreground="{StaticResource DivarAccentBrush}" FontSize="21" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                <Button x:Name="MenuButton" Width="40" Height="40" Padding="0" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0" Click="OnMenuButtonClick" AutomationProperties.Name="باز کردن منو">
+                    <FontIcon Glyph="&#xE700;" FontFamily="Segoe MDL2 Assets" FontSize="18" Foreground="{ThemeResource DivarTextBrush}" />
+                </Button>
+            </Grid>
         </Border>
 
-        <Frame x:Name="ContentFrame" Grid.Row="1" />
+        <SplitView
+            x:Name="NavigationSplitView"
+            Grid.Row="1"
+            DisplayMode="Overlay"
+            PanePlacement="Right"
+            OpenPaneLength="280"
+            IsPaneOpen="False"
+            FlowDirection="LeftToRight"
+            PaneBackground="{ThemeResource DivarSurfaceBrush}">
 
-        <CommandBar Grid.Row="2" ClosedDisplayMode="Compact" IsOpen="False">
-            <AppBarButton Label="شهر" Command="{Binding ShowCitiesCommand}">
-                <AppBarButton.Icon>
-                    <SymbolIcon Symbol="Home" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarButton Label="خانه" Command="{Binding ShowHomeCommand}">
-                <AppBarButton.Icon>
-                    <SymbolIcon Symbol="Document" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarButton Label="جستجو" Command="{Binding ShowSearchCommand}">
-                <AppBarButton.Icon>
-                    <SymbolIcon Symbol="Find" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarButton Label="آگهی‌ها" Command="{Binding ShowPostListCommand}">
-                <AppBarButton.Icon>
-                    <SymbolIcon Symbol="List" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-        </CommandBar>
+            <SplitView.Pane>
+                <Border BorderBrush="{ThemeResource DivarDividerBrush}" BorderThickness="1,0,0,0">
+                    <Grid Padding="16,18" FlowDirection="RightToLeft">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel>
+                            <TextBlock Text="دیوار" Foreground="{StaticResource DivarAccentBrush}" FontSize="28" FontWeight="Bold" />
+                            <TextBlock Margin="0,4,0,14" Text="خرید و فروش بی‌واسطه" Style="{StaticResource DivarBodyStyle}" />
+                            <Button Command="{Binding ShowCitiesCommand}" Click="OnNavigationItemClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" FlowDirection="LeftToRight" Padding="12,10" Background="{StaticResource DivarAccentTintBrush}" Foreground="{ThemeResource DivarTextBrush}" BorderThickness="0">
+                                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalAlignment="Right">
+                                    <FontIcon Glyph="&#xE707;" FontFamily="Segoe MDL2 Assets" FontSize="19" Foreground="{StaticResource DivarAccentBrush}" />
+                                    <Border Width="12" />
+                                    <StackPanel FlowDirection="RightToLeft">
+                                        <TextBlock Text="تهران" FontSize="15" FontWeight="SemiBold" TextAlignment="Right" />
+                                        <TextBlock Text="شهر فعلی · تغییر شهر" FontSize="12" Foreground="{ThemeResource DivarMutedTextBrush}" TextAlignment="Right" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Button>
+                            <Border Margin="0,14,0,0" Height="1" Background="{ThemeResource DivarDividerBrush}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Margin="0,12,0,0">
+                            <Button Command="{Binding ShowHomeCommand}" Click="OnNavigationItemClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" FlowDirection="LeftToRight" MinHeight="48" Background="Transparent" Foreground="{ThemeResource DivarTextBrush}" BorderThickness="0">
+                                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalAlignment="Right">
+                                    <FontIcon Glyph="&#xE80F;" FontFamily="Segoe MDL2 Assets" FontSize="18" Foreground="{ThemeResource DivarMutedTextBrush}" />
+                                    <Border Width="12" />
+                                    <TextBlock Text="خانه" FlowDirection="RightToLeft" TextAlignment="Right" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding ShowSearchCommand}" Click="OnNavigationItemClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" FlowDirection="LeftToRight" MinHeight="48" Background="Transparent" Foreground="{ThemeResource DivarTextBrush}" BorderThickness="0">
+                                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalAlignment="Right">
+                                    <FontIcon Glyph="&#xE721;" FontFamily="Segoe MDL2 Assets" FontSize="18" Foreground="{ThemeResource DivarMutedTextBrush}" />
+                                    <Border Width="12" />
+                                    <TextBlock Text="جستجو" FlowDirection="RightToLeft" TextAlignment="Right" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding ShowPostListCommand}" Click="OnNavigationItemClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" FlowDirection="LeftToRight" MinHeight="48" Background="Transparent" Foreground="{ThemeResource DivarTextBrush}" BorderThickness="0">
+                                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalAlignment="Right">
+                                    <FontIcon Glyph="&#xE8A5;" FontFamily="Segoe MDL2 Assets" FontSize="18" Foreground="{ThemeResource DivarMutedTextBrush}" />
+                                    <Border Width="12" />
+                                    <TextBlock Text="آگهی‌ها" FlowDirection="RightToLeft" TextAlignment="Right" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2">
+                            <Border Height="1" Background="{ThemeResource DivarDividerBrush}" />
+                            <TextBlock Margin="4,14,4,0" Text="نسخهٔ بومی ویندوز ۱۰ موبایل" Style="{StaticResource DivarBodyStyle}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </SplitView.Pane>
+
+            <SplitView.Content>
+                <Frame x:Name="ContentFrame" />
+            </SplitView.Content>
+        </SplitView>
     </Grid>
 </Page>

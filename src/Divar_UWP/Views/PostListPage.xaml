@@ -4,15 +4,27 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    FlowDirection="RightToLeft"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <Grid Padding="24">
-        <StackPanel MaxWidth="480" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-            <TextBlock Text="{Binding Title}" FontSize="28" FontWeight="SemiBold" />
-            <TextBlock Margin="0,12,0,24" Text="فهرست خالی است. اتصال خوراک و صفحه‌بندی در برش بعدی انجام می‌شود." TextWrapping="Wrap" />
-            <Button Content="باز کردن جزئیات خالی" Command="{Binding ShowPostDetailsCommand}" HorizontalAlignment="Stretch" />
+    mc:Ignorable="d" FlowDirection="RightToLeft" Background="{ThemeResource DivarPageBrush}">
+    <Grid>
+        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
+        <StackPanel Padding="20,16,20,12">
+            <TextBlock Text="{Binding Title}" Style="{StaticResource DivarPageTitleStyle}" />
+            <ScrollViewer Margin="0,14,0,0" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Disabled">
+                <StackPanel Orientation="Horizontal">
+                    <Button Margin="0,0,8,0" Content="محله" Style="{StaticResource DivarSecondaryButtonStyle}" />
+                    <Button Margin="0,0,8,0" Content="قیمت" Style="{StaticResource DivarSecondaryButtonStyle}" />
+                    <Button Margin="0,0,8,0" Content="عکس‌دار" Style="{StaticResource DivarSecondaryButtonStyle}" />
+                    <Button Content="مرتب‌سازی" Style="{StaticResource DivarSecondaryButtonStyle}" />
+                </StackPanel>
+            </ScrollViewer>
         </StackPanel>
+        <Border Grid.Row="1" BorderBrush="{ThemeResource DivarDividerBrush}" BorderThickness="0,1,0,0">
+            <StackPanel Margin="24" MaxWidth="440" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                <TextBlock Text="&#xE8A5;" FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource DivarSubtleTextBrush}" FontSize="42" HorizontalAlignment="Center" />
+                <TextBlock Margin="0,14,0,6" Text="هنوز آگهی‌ای نمایش داده نشده" Style="{StaticResource DivarSectionTitleStyle}" HorizontalAlignment="Center" />
+                <TextBlock Text="خوراک و صفحه‌بندی در برش بعدی به سرویس دیوار متصل می‌شوند." Style="{StaticResource DivarBodyStyle}" TextAlignment="Center" />
+                <Button Margin="0,22,0,0" Content="پیش‌نمایش جزئیات" Command="{Binding ShowPostDetailsCommand}" HorizontalAlignment="Stretch" Style="{StaticResource DivarPrimaryButtonStyle}" />
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>

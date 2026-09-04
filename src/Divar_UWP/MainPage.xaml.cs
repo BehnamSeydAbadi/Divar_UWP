@@ -42,6 +42,13 @@ namespace Divar_UWP
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
+            if (NavigationSplitView.IsPaneOpen)
+            {
+                e.Handled = true;
+                NavigationSplitView.IsPaneOpen = false;
+                return;
+            }
+
             if (!AppServices.Current.Navigation.CanGoBack)
             {
                 return;
@@ -49,6 +56,16 @@ namespace Divar_UWP
 
             e.Handled = true;
             AppServices.Current.Navigation.GoBack();
+        }
+
+        private void OnMenuButtonClick(object sender, RoutedEventArgs e)
+        {
+            NavigationSplitView.IsPaneOpen = !NavigationSplitView.IsPaneOpen;
+        }
+
+        private void OnNavigationItemClick(object sender, RoutedEventArgs e)
+        {
+            NavigationSplitView.IsPaneOpen = false;
         }
 
         private static void UpdateBackButton()

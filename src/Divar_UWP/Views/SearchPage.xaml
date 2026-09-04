@@ -4,15 +4,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    FlowDirection="RightToLeft"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <Grid Padding="24">
-        <StackPanel MaxWidth="480" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-            <TextBlock Text="{Binding Title}" FontSize="28" FontWeight="SemiBold" />
-            <TextBox Margin="0,16,0,12" Header="عبارت جستجو" PlaceholderText="مثلاً موبایل" />
-            <Button Content="نمایش صفحه نتایج خالی" Command="{Binding ShowResultsCommand}" HorizontalAlignment="Stretch" />
+    mc:Ignorable="d" FlowDirection="RightToLeft" Background="{ThemeResource DivarPageBrush}">
+    <Grid Padding="20">
+        <StackPanel MaxWidth="480" HorizontalAlignment="Stretch">
+            <TextBlock Text="{Binding Title}" Style="{StaticResource DivarPageTitleStyle}" />
+            <TextBox Margin="0,18,0,12" Style="{StaticResource DivarTextBoxStyle}" PlaceholderText="جستجو در همهٔ آگهی‌ها" />
+            <ScrollViewer HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Disabled">
+                <StackPanel Orientation="Horizontal">
+                    <Button Margin="0,0,8,0" Content="دسته‌بندی" Style="{StaticResource DivarSecondaryButtonStyle}" />
+                    <Button Margin="0,0,8,0" Content="محله" Style="{StaticResource DivarSecondaryButtonStyle}" />
+                    <Button Content="فیلترها" Style="{StaticResource DivarSecondaryButtonStyle}" />
+                </StackPanel>
+            </ScrollViewer>
+            <Button Margin="0,24,0,0" Content="نمایش نتایج" Command="{Binding ShowResultsCommand}" HorizontalAlignment="Stretch" Style="{StaticResource DivarPrimaryButtonStyle}" />
+            <TextBlock Margin="0,30,0,12" Text="جستجوهای پیشنهادی" Style="{StaticResource DivarSectionTitleStyle}" />
+            <Border Background="{ThemeResource DivarSurfaceBrush}" BorderBrush="{ThemeResource DivarDividerBrush}" BorderThickness="1" Padding="16">
+                <TextBlock Text="با وارد کردن عبارت، پیشنهادهای مرتبط اینجا نمایش داده می‌شوند." Style="{StaticResource DivarBodyStyle}" />
+            </Border>
         </StackPanel>
     </Grid>
 </Page>

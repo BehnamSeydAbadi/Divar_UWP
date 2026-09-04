@@ -4,15 +4,33 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    FlowDirection="RightToLeft"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <Grid Padding="24">
-        <StackPanel MaxWidth="480" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-            <TextBlock Text="{Binding Title}" FontSize="28" FontWeight="SemiBold" />
-            <TextBlock Margin="0,12,0,24" Text="نمای بومی جزئیات آگهی آمادهٔ اتصال به سرویس پست است." TextWrapping="Wrap" />
-            <Button Content="بازگشت" Command="{Binding BackCommand}" HorizontalAlignment="Stretch" />
+    mc:Ignorable="d" FlowDirection="RightToLeft" Background="{ThemeResource DivarPageBrush}">
+    <ScrollViewer>
+        <StackPanel MaxWidth="480" HorizontalAlignment="Stretch">
+            <Border Height="220" Background="{ThemeResource DivarElevatedSurfaceBrush}">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="&#xEB9F;" FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource DivarSubtleTextBrush}" FontSize="42" HorizontalAlignment="Center" />
+                    <TextBlock Margin="0,8,0,0" Text="تصاویر آگهی" Style="{StaticResource DivarBodyStyle}" />
+                </StackPanel>
+            </Border>
+            <StackPanel Padding="20">
+                <TextBlock Text="{Binding Title}" Style="{StaticResource DivarPageTitleStyle}" />
+                <TextBlock Margin="0,8,0,0" Text="جزئیات آگهی پس از اتصال سرویس نمایش داده می‌شود" Style="{StaticResource DivarBodyStyle}" />
+                <Border Margin="0,22,0,0" Height="1" Background="{ThemeResource DivarDividerBrush}" />
+                <Grid Margin="0,18,0,0">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                    <TextBlock Text="قیمت" Style="{StaticResource DivarBodyStyle}" />
+                    <TextBlock Grid.Column="1" Text="—" Style="{StaticResource DivarSectionTitleStyle}" />
+                </Grid>
+                <TextBlock Margin="0,28,0,10" Text="توضیحات" Style="{StaticResource DivarSectionTitleStyle}" />
+                <TextBlock Text="اطلاعات این بخش مستقیماً از سرویس جزئیات آگهی دریافت خواهد شد." Style="{StaticResource DivarBodyStyle}" />
+                <Grid Margin="0,28,0,0">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Margin="0,0,5,0" Content="چت" Style="{StaticResource DivarSecondaryButtonStyle}" />
+                    <Button Grid.Column="1" Margin="5,0,0,0" Content="اطلاعات تماس" Style="{StaticResource DivarPrimaryButtonStyle}" />
+                </Grid>
+                <Button Margin="0,12,0,0" Content="بازگشت" Command="{Binding BackCommand}" HorizontalAlignment="Stretch" Background="Transparent" Foreground="{ThemeResource DivarMutedTextBrush}" BorderThickness="0" />
+            </StackPanel>
         </StackPanel>
-    </Grid>
+    </ScrollViewer>
 </Page>

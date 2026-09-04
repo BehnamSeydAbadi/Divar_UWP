@@ -4,15 +4,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    FlowDirection="RightToLeft"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <Grid Padding="24">
-        <StackPanel MaxWidth="480" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-            <TextBlock Text="{Binding Title}" FontSize="28" FontWeight="SemiBold" />
-            <TextBlock Margin="0,12,0,24" Text="فهرست شهرها در برش بعدی به سرویس شهر متصل می‌شود." TextWrapping="Wrap" />
-            <Button Content="ادامه به صفحه اصلی" Command="{Binding ContinueCommand}" HorizontalAlignment="Stretch" />
+    mc:Ignorable="d" FlowDirection="RightToLeft" Background="{ThemeResource DivarPageBrush}">
+    <ScrollViewer>
+        <StackPanel Padding="20" MaxWidth="480" HorizontalAlignment="Stretch">
+            <TextBlock Text="{Binding Title}" Style="{StaticResource DivarPageTitleStyle}" />
+            <TextBlock Margin="0,8,0,20" Text="برای نمایش آگهی‌های نزدیک، شهر خود را انتخاب کنید." Style="{StaticResource DivarBodyStyle}" />
+            <TextBox Style="{StaticResource DivarTextBoxStyle}" PlaceholderText="جستجو در شهرها" />
+            <TextBlock Margin="0,28,0,12" Text="شهرهای پربازدید" Style="{StaticResource DivarSectionTitleStyle}" />
+            <Border Background="{ThemeResource DivarSurfaceBrush}" BorderBrush="{ThemeResource DivarDividerBrush}" BorderThickness="1" Padding="16,4">
+                <StackPanel>
+                    <Button Content="تهران" Command="{Binding ContinueCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" Background="Transparent" Foreground="{ThemeResource DivarTextBrush}" BorderThickness="0" MinHeight="48" />
+                    <Border Height="1" Background="{ThemeResource DivarDividerBrush}" />
+                    <Button Content="مشهد" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" Background="Transparent" Foreground="{ThemeResource DivarTextBrush}" BorderThickness="0" MinHeight="48" />
+                    <Border Height="1" Background="{ThemeResource DivarDividerBrush}" />
+                    <Button Content="اصفهان" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" Background="Transparent" Foreground="{ThemeResource DivarTextBrush}" BorderThickness="0" MinHeight="48" />
+                </StackPanel>
+            </Border>
+            <Button Margin="0,24,0,0" Content="ادامه با تهران" Command="{Binding ContinueCommand}" HorizontalAlignment="Stretch" Style="{StaticResource DivarPrimaryButtonStyle}" />
         </StackPanel>
-    </Grid>
+    </ScrollViewer>
 </Page>

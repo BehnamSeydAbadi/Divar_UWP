@@ -1,0 +1,6 @@
+MainPackage=D:\source\repos\Divar_UWP\src\Divar_UWP\bin\ARM\Debug\Divar_UWP_1.0.0.0_ARM_Debug.appx
+SymbolPackage=D:\source\repos\Divar_UWP\src\Divar_UWP\AppPackages\Divar_UWP_1.0.0.0_Debug_Test\Divar_UWP_1.0.0.0_ARM_Debug.appxsym
+ResourcePack=D:\source\repos\Divar_UWP\src\Divar_UWP\bin\ARM\Debug\Divar_UWP_1.0.0.0_scale-100.appx
+ResourcePack=D:\source\repos\Divar_UWP\src\Divar_UWP\bin\ARM\Debug\Divar_UWP_1.0.0.0_scale-125.appx
+ResourcePack=D:\source\repos\Divar_UWP\src\Divar_UWP\bin\ARM\Debug\Divar_UWP_1.0.0.0_scale-150.appx
+ResourcePack=D:\source\repos\Divar_UWP\src\Divar_UWP\bin\ARM\Debug\Divar_UWP_1.0.0.0_scale-400.appx
