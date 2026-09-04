@@ -18,7 +18,7 @@
                           IncrementalLoadingTrigger="Edge"
                           IncrementalLoadingThreshold="2"
                           SelectionMode="None"
-                          IsItemClickEnabled="False">
+                          IsItemClickEnabled="True" ItemClick="OnPostItemClick">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />

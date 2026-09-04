@@ -137,10 +137,12 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Converters\ThumbnailConverter.cs" />
+    <Compile Include="Converters\PreviewImageConverter.cs" />
     <Compile Include="Infrastructure\AppServices.cs" />
     <Compile Include="Infrastructure\DivarApiClient.cs" />
     <Compile Include="Infrastructure\DivarApiOptions.cs" />
     <Compile Include="Infrastructure\DivarApiResponse.cs" />
+    <Compile Include="Infrastructure\DivarImageUrl.cs" />
     <Compile Include="Infrastructure\DivarSelectionStore.cs" />
     <Compile Include="Infrastructure\EmptyDivarCredentialProvider.cs" />
     <Compile Include="Infrastructure\IDivarApiClient.cs" />
@@ -166,6 +168,9 @@
     <Compile Include="Models\DivarFilterKind.cs" />
     <Compile Include="Models\DivarFilterOption.cs" />
     <Compile Include="Models\DivarPostDetails.cs" />
+    <Compile Include="Models\DivarPostImage.cs" />
+    <Compile Include="Models\DivarPostAttribute.cs" />
+    <Compile Include="Models\DivarPostNavigationParameter.cs" />
     <Compile Include="Models\DivarPostSummary.cs" />
     <Compile Include="Models\DivarSearchRequest.cs" />
     <Compile Include="Models\DivarSearchSuggestion.cs" />
@@ -180,6 +185,7 @@
     <Compile Include="Services\IDivarChatService.cs" />
     <Compile Include="Services\IDivarCityService.cs" />
     <Compile Include="Services\IDivarPostService.cs" />
+    <Compile Include="Services\DivarPostService.cs" />
     <Compile Include="Services\IDivarSearchService.cs" />
     <Compile Include="Services\IDivarFilterService.cs" />
     <Compile Include="ViewModels\CitySelectionViewModel.cs" />

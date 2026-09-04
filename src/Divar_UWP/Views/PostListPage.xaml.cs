@@ -18,6 +18,7 @@ namespace Divar_UWP.Views
         public PostListPage()
         {
             InitializeComponent();
+            NavigationCacheMode = NavigationCacheMode.Required;
             _viewModel = new PostListViewModel(AppServices.Current.SearchService, AppServices.Current.SelectionStore, AppServices.Current.Navigation);
             DataContext = _viewModel;
         }
@@ -26,7 +27,16 @@ namespace Divar_UWP.Views
         {
             base.OnNavigatedTo(e);
             _parameter = e.Parameter as DivarFeedNavigationParameter;
-            StartLoading();
+            if (e.NavigationMode == NavigationMode.Back && _parameter != null && !_parameter.RequiresReload)
+            {
+                _loadCancellation = new CancellationTokenSource();
+                _viewModel.Resume(_loadCancellation.Token);
+            }
+            else
+            {
+                if (_parameter != null) _parameter.RequiresReload = false;
+                StartLoading();
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -52,5 +62,6 @@ namespace Divar_UWP.Views
         }
 
         private void OnRetryClick(object sender, RoutedEventArgs e) { StartLoading(); }
+        private void OnPostItemClick(object sender, ItemClickEventArgs e) { _viewModel.OpenPost(e.ClickedItem as DivarPostSummary); }
     }
 }

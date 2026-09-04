@@ -1,36 +1,68 @@
-<Page
-    x:Class="Divar_UWP.Views.PostDetailsPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" FlowDirection="RightToLeft" Background="{ThemeResource DivarPageBrush}">
-    <ScrollViewer>
-        <StackPanel MaxWidth="480" HorizontalAlignment="Stretch">
-            <Border Height="220" Background="{ThemeResource DivarElevatedSurfaceBrush}">
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Text="&#xEB9F;" FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource DivarSubtleTextBrush}" FontSize="42" HorizontalAlignment="Center" />
-                    <TextBlock Margin="0,8,0,0" Text="تصاویر آگهی" Style="{StaticResource DivarBodyStyle}" />
+<Page x:Class="Divar_UWP.Views.PostDetailsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FlowDirection="RightToLeft" Background="{ThemeResource DivarPageBrush}">
+    <Grid>
+        <ScrollViewer>
+            <StackPanel MaxWidth="520" HorizontalAlignment="Stretch">
+                <Grid Height="290" Background="{ThemeResource DivarElevatedSurfaceBrush}" Visibility="{Binding HasImages, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <FlipView x:Name="Gallery" ItemsSource="{Binding Details.Images}" SelectionChanged="OnGallerySelectionChanged"><FlipView.ItemTemplate><DataTemplate><Image Source="{Binding DisplayUrl, Converter={StaticResource PreviewImageConverter}}" Stretch="Uniform" Tapped="OnGalleryImageTapped" /></DataTemplate></FlipView.ItemTemplate></FlipView>
+                </Grid>
+                <ListView ItemsSource="{Binding Details.Images}"
+                          IsItemClickEnabled="True"
+                          ItemClick="OnThumbnailClick"
+                          SelectionMode="None"
+                          IsSwipeEnabled="False"
+                          Height="74"
+                          ScrollViewer.HorizontalScrollMode="Enabled"
+                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                          ScrollViewer.VerticalScrollMode="Disabled"
+                          ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                          ScrollViewer.ZoomMode="Disabled"
+                          Visibility="{Binding HasImages, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="62" Height="62" Margin="6" Background="{ThemeResource DivarElevatedSurfaceBrush}">
+                                <Image Source="{Binding ThumbnailUrl, Converter={StaticResource ThumbnailConverter}}" Stretch="UniformToFill" />
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <StackPanel Padding="20">
+                    <TextBlock Text="{Binding Details.BreadcrumbText}" Style="{StaticResource DivarBodyStyle}" Visibility="{Binding Details.BreadcrumbText, Converter={StaticResource StringToVisibilityConverter}}" />
+                    <TextBlock Margin="0,8,0,0" Text="{Binding Details.Title}" Style="{StaticResource DivarPageTitleStyle}" />
+                    <TextBlock Margin="0,10,0,0" Text="{Binding Details.LocationText}" Style="{StaticResource DivarBodyStyle}" Visibility="{Binding Details.LocationText, Converter={StaticResource StringToVisibilityConverter}}" />
+                    <TextBlock Margin="0,14,0,0" Text="{Binding Details.PriceText}" Style="{StaticResource DivarSectionTitleStyle}" Visibility="{Binding HasPrice, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <TextBlock Margin="0,8,0,0" Text="{Binding Details.SellerInfo}" Style="{StaticResource DivarBodyStyle}" Visibility="{Binding Details.SellerInfo, Converter={StaticResource StringToVisibilityConverter}}" />
+                    <Border Margin="0,20,0,0" Height="1" Background="{ThemeResource DivarDividerBrush}" />
+                    <TextBlock Margin="0,20,0,8" Text="مشخصات" Style="{StaticResource DivarSectionTitleStyle}" Visibility="{Binding HasAttributes, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <ItemsControl ItemsSource="{Binding Details.Attributes}" Visibility="{Binding HasAttributes, Converter={StaticResource BooleanToVisibilityConverter}}"><ItemsControl.ItemTemplate><DataTemplate><Grid Padding="0,8"><Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions><TextBlock Text="{Binding Title}" Style="{StaticResource DivarBodyStyle}" /><TextBlock Grid.Column="1" Text="{Binding Value}" Foreground="{ThemeResource DivarTextBrush}" TextAlignment="Left" TextWrapping="Wrap" /></Grid></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+                    <TextBlock Margin="0,24,0,8" Text="توضیحات" Style="{StaticResource DivarSectionTitleStyle}" Visibility="{Binding HasDescription, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <TextBlock Text="{Binding Details.Description}" Style="{StaticResource DivarBodyStyle}" Visibility="{Binding HasDescription, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <TextBlock Margin="0,24,0,0" Text="{Binding Details.ShareUrl}" Style="{StaticResource DivarBodyStyle}" Visibility="{Binding Details.ShareUrl, Converter={StaticResource StringToVisibilityConverter}}" TextTrimming="CharacterEllipsis" />
                 </StackPanel>
-            </Border>
-            <StackPanel Padding="20">
-                <TextBlock Text="{Binding Title}" Style="{StaticResource DivarPageTitleStyle}" />
-                <TextBlock Margin="0,8,0,0" Text="جزئیات آگهی پس از اتصال سرویس نمایش داده می‌شود" Style="{StaticResource DivarBodyStyle}" />
-                <Border Margin="0,22,0,0" Height="1" Background="{ThemeResource DivarDividerBrush}" />
-                <Grid Margin="0,18,0,0">
-                    <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                    <TextBlock Text="قیمت" Style="{StaticResource DivarBodyStyle}" />
-                    <TextBlock Grid.Column="1" Text="—" Style="{StaticResource DivarSectionTitleStyle}" />
-                </Grid>
-                <TextBlock Margin="0,28,0,10" Text="توضیحات" Style="{StaticResource DivarSectionTitleStyle}" />
-                <TextBlock Text="اطلاعات این بخش مستقیماً از سرویس جزئیات آگهی دریافت خواهد شد." Style="{StaticResource DivarBodyStyle}" />
-                <Grid Margin="0,28,0,0">
-                    <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Margin="0,0,5,0" Content="چت" Style="{StaticResource DivarSecondaryButtonStyle}" />
-                    <Button Grid.Column="1" Margin="5,0,0,0" Content="اطلاعات تماس" Style="{StaticResource DivarPrimaryButtonStyle}" />
-                </Grid>
-                <Button Margin="0,12,0,0" Content="بازگشت" Command="{Binding BackCommand}" HorizontalAlignment="Stretch" Background="Transparent" Foreground="{ThemeResource DivarMutedTextBrush}" BorderThickness="0" />
             </StackPanel>
-        </StackPanel>
-    </ScrollViewer>
+        </ScrollViewer>
+        <StackPanel Margin="24" VerticalAlignment="Center" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"><ProgressRing Width="36" Height="36" IsActive="True" HorizontalAlignment="Center" /><TextBlock Margin="0,12,0,0" Text="در حال دریافت آگهی…" Style="{StaticResource DivarBodyStyle}" TextAlignment="Center" /></StackPanel>
+        <StackPanel Margin="24" VerticalAlignment="Center" Visibility="{Binding HasError, Converter={StaticResource BooleanToVisibilityConverter}}"><TextBlock Text="{Binding ErrorMessage}" Style="{StaticResource DivarBodyStyle}" TextAlignment="Center" /><Button Margin="0,16,0,0" Content="تلاش دوباره" Click="OnRetryClick" Style="{StaticResource DivarPrimaryButtonStyle}" /></StackPanel>
+        <Grid x:Name="ImageViewerOverlay" Background="#F0000000" Visibility="Collapsed" FlowDirection="LeftToRight">
+            <ScrollViewer x:Name="ImageViewerScrollViewer"
+                          HorizontalScrollMode="Enabled"
+                          HorizontalScrollBarVisibility="Hidden"
+                          VerticalScrollMode="Enabled"
+                          VerticalScrollBarVisibility="Hidden"
+                          ZoomMode="Enabled"
+                          MinZoomFactor="1"
+                          MaxZoomFactor="4"
+                          ZoomSnapPointsType="None"
+                          Margin="48,56">
+                <Image x:Name="ImageViewerImage" Stretch="Uniform" />
+            </ScrollViewer>
+            <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,12,12,0" Width="44" Height="44" Click="OnCloseImageViewerClick" Background="#66000000" Foreground="White" BorderThickness="0" FontFamily="Segoe MDL2 Assets" FontSize="18" Content="&#xE711;" />
+            <Button x:Name="PreviousImageButton" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0,0,0" Width="48" Height="56" Click="OnPreviousImageClick" Background="#66000000" Foreground="White" BorderThickness="0" FontFamily="Segoe MDL2 Assets" FontSize="24" Content="&#xE76B;" />
+            <Button x:Name="NextImageButton" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,12,0" Width="48" Height="56" Click="OnNextImageClick" Background="#66000000" Foreground="White" BorderThickness="0" FontFamily="Segoe MDL2 Assets" FontSize="24" Content="&#xE76C;" />
+        </Grid>
+    </Grid>
 </Page>

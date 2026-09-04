@@ -7,5 +7,6 @@ namespace Divar_UWP.Models
         public string Title { get; set; }
         public string FilterDataJson { get; set; }
         public int ActiveFilterCount { get; set; }
+        public bool RequiresReload { get; set; }
     }
 }

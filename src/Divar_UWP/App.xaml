@@ -45,6 +45,7 @@
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
             <converters:ThumbnailConverter x:Key="ThumbnailConverter" />
+            <converters:PreviewImageConverter x:Key="PreviewImageConverter" />
 
             <Style x:Key="DivarPageTitleStyle" TargetType="TextBlock">
                 <Setter Property="Foreground" Value="{ThemeResource DivarTextBrush}" />

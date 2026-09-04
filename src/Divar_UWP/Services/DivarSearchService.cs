@@ -156,7 +156,7 @@ namespace Divar_UWP.Services
                         TopDescription = GetString(data, "top_description_text"),
                         MiddleDescription = GetString(data, "middle_description_text"),
                         BottomDescription = GetString(data, "bottom_description_text"),
-                        ThumbnailUrl = GetString(data, "image_url"),
+                        ThumbnailUrl = DivarImageUrl.ToMobileCompatible(GetString(data, "image_url")),
                         BadgeText = GetString(data, "red_text"),
                         ImageCount = GetInt(data, "image_count"),
                         HasChat = GetBool(data, "has_chat"),

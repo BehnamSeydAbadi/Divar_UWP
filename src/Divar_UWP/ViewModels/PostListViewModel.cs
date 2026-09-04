@@ -14,6 +14,7 @@ namespace Divar_UWP.ViewModels
     {
         private readonly IDivarSearchService _searchService;
         private readonly IDivarSelectionStore _selectionStore;
+        private readonly INavigationService _navigation;
         private readonly HashSet<string> _knownTokens = new HashSet<string>(StringComparer.Ordinal);
         private DivarFeedNavigationParameter _parameter;
         private CancellationToken _pageCancellationToken;
@@ -32,9 +33,10 @@ namespace Divar_UWP.ViewModels
         {
             _searchService = searchService ?? throw new ArgumentNullException(nameof(searchService));
             _selectionStore = selectionStore ?? throw new ArgumentNullException(nameof(selectionStore));
+            _navigation = navigation ?? throw new ArgumentNullException(nameof(navigation));
             Posts = new IncrementalPostCollection(LoadNextPageAsync);
             FeedTitle = "آگهی‌ها";
-            OpenFiltersCommand = new RelayCommand(() => navigation.Navigate(typeof(FilterPage), _parameter));
+            OpenFiltersCommand = new RelayCommand(() => _navigation.Navigate(typeof(FilterPage), _parameter));
         }
 
         public IncrementalPostCollection Posts { get; private set; }
@@ -46,6 +48,12 @@ namespace Divar_UWP.ViewModels
         public string FeedTitle { get { return _feedTitle; } private set { SetProperty(ref _feedTitle, value); } }
         public string FilterButtonText { get { return _filterButtonText; } private set { SetProperty(ref _filterButtonText, value); } }
         public ICommand OpenFiltersCommand { get; private set; }
+
+        public void OpenPost(DivarPostSummary post)
+        {
+            if (post == null || string.IsNullOrWhiteSpace(post.Token)) return;
+            _navigation.Navigate(typeof(PostDetailsPage), new DivarPostNavigationParameter { Token = post.Token });
+        }
 
         public async Task InitializeAsync(DivarFeedNavigationParameter parameter, CancellationToken cancellationToken)
         {
@@ -71,6 +79,11 @@ namespace Divar_UWP.ViewModels
                 IsEmpty = loaded == 0 && !HasError;
             }
             finally { IsLoading = false; }
+        }
+
+        public void Resume(CancellationToken cancellationToken)
+        {
+            _pageCancellationToken = cancellationToken;
         }
 
         private async Task<uint> LoadNextPageAsync(CancellationToken incrementalCancellationToken)

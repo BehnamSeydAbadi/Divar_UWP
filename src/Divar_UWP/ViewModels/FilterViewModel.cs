@@ -68,6 +68,7 @@ namespace Divar_UWP.ViewModels
             if (!TryBuildValues(out values, out active)) return;
             _parameter.FilterDataJson = values.Count == 0 ? null : values.Stringify();
             _parameter.ActiveFilterCount = active;
+            _parameter.RequiresReload = true;
             if (_navigation.CanGoBack) _navigation.GoBack();
         }
 
