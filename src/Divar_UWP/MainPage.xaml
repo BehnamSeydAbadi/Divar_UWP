@@ -50,7 +50,7 @@
                                     <FontIcon Glyph="&#xE707;" FontFamily="Segoe MDL2 Assets" FontSize="19" Foreground="{StaticResource DivarAccentBrush}" />
                                     <Border Width="12" />
                                     <StackPanel FlowDirection="RightToLeft">
-                                        <TextBlock Text="تهران" FontSize="15" FontWeight="SemiBold" TextAlignment="Right" />
+                                        <TextBlock Text="{Binding CurrentCityName}" FontSize="15" FontWeight="SemiBold" TextAlignment="Right" />
                                         <TextBlock Text="شهر فعلی · تغییر شهر" FontSize="12" Foreground="{ThemeResource DivarMutedTextBrush}" TextAlignment="Right" />
                                     </StackPanel>
                                 </StackPanel>
@@ -64,6 +64,13 @@
                                     <FontIcon Glyph="&#xE80F;" FontFamily="Segoe MDL2 Assets" FontSize="18" Foreground="{ThemeResource DivarMutedTextBrush}" />
                                     <Border Width="12" />
                                     <TextBlock Text="خانه" FlowDirection="RightToLeft" TextAlignment="Right" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding ShowCategoriesCommand}" Click="OnNavigationItemClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" FlowDirection="LeftToRight" MinHeight="48" Background="Transparent" Foreground="{ThemeResource DivarTextBrush}" BorderThickness="0">
+                                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalAlignment="Right">
+                                    <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" FontSize="18" Foreground="{ThemeResource DivarMutedTextBrush}" />
+                                    <Border Width="12" />
+                                    <TextBlock Text="دسته‌بندی‌ها" FlowDirection="RightToLeft" TextAlignment="Right" VerticalAlignment="Center" />
                                 </StackPanel>
                             </Button>
                             <Button Command="{Binding ShowSearchCommand}" Click="OnNavigationItemClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" FlowDirection="LeftToRight" MinHeight="48" Background="Transparent" Foreground="{ThemeResource DivarTextBrush}" BorderThickness="0">

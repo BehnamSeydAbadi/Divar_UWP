@@ -134,13 +134,16 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\NamespaceInfo.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Infrastructure\AppServices.cs" />
     <Compile Include="Infrastructure\DivarApiClient.cs" />
     <Compile Include="Infrastructure\DivarApiOptions.cs" />
     <Compile Include="Infrastructure\DivarApiResponse.cs" />
+    <Compile Include="Infrastructure\DivarSelectionStore.cs" />
     <Compile Include="Infrastructure\EmptyDivarCredentialProvider.cs" />
     <Compile Include="Infrastructure\IDivarApiClient.cs" />
     <Compile Include="Infrastructure\IDivarCredentialProvider.cs" />
+    <Compile Include="Infrastructure\IDivarSelectionStore.cs" />
     <Compile Include="Infrastructure\INavigationService.cs" />
     <Compile Include="Infrastructure\NavigationService.cs" />
     <Compile Include="Infrastructure\ObservableObject.cs" />
@@ -161,6 +164,8 @@
     <Compile Include="Models\DivarSearchSuggestion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IDivarAuthService.cs" />
+    <Compile Include="Services\DivarCategoryService.cs" />
+    <Compile Include="Services\DivarCityService.cs" />
     <Compile Include="Services\IDivarBookmarkService.cs" />
     <Compile Include="Services\IDivarCategoryService.cs" />
     <Compile Include="Services\IDivarChatService.cs" />
@@ -168,6 +173,7 @@
     <Compile Include="Services\IDivarPostService.cs" />
     <Compile Include="Services\IDivarSearchService.cs" />
     <Compile Include="ViewModels\CitySelectionViewModel.cs" />
+    <Compile Include="ViewModels\CategoriesViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\PageViewModelBase.cs" />
     <Compile Include="ViewModels\PostDetailsViewModel.cs" />
@@ -176,6 +182,9 @@
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\CitySelectionPage.xaml.cs">
       <DependentUpon>CitySelectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CategoriesPage.xaml.cs">
+      <DependentUpon>CategoriesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
@@ -255,6 +264,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\CitySelectionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CategoriesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

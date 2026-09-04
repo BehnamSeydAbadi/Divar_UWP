@@ -9,5 +9,11 @@ namespace Divar_UWP.Models
         public string Slug { get; set; }
 
         public string ParentId { get; set; }
+
+        public bool IsTopCity { get; set; }
+
+        public double Latitude { get; set; }
+
+        public double Longitude { get; set; }
     }
 }

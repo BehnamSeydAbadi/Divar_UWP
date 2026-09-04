@@ -10,18 +10,24 @@ namespace Divar_UWP
 {
     public sealed partial class MainPage : Page
     {
+        private readonly ShellViewModel _shellViewModel;
+
         public MainPage()
         {
             InitializeComponent();
 
             AppServices.Current.InitializeNavigation(ContentFrame);
-            DataContext = new ShellViewModel(AppServices.Current.Navigation);
+            _shellViewModel = new ShellViewModel(AppServices.Current.Navigation, AppServices.Current.SelectionStore);
+            DataContext = _shellViewModel;
 
             ContentFrame.Navigated += OnContentFrameNavigated;
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
 
-            AppServices.Current.Navigation.Navigate(typeof(CitySelectionPage));
+            AppServices.Current.Navigation.Navigate(
+                AppServices.Current.SelectionStore.GetSelectedCity() == null
+                    ? typeof(CitySelectionPage)
+                    : typeof(HomePage));
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -60,6 +66,7 @@ namespace Divar_UWP
 
         private void OnMenuButtonClick(object sender, RoutedEventArgs e)
         {
+            _shellViewModel.RefreshSelection();
             NavigationSplitView.IsPaneOpen = !NavigationSplitView.IsPaneOpen;
         }
 
