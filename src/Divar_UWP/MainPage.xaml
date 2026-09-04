@@ -1,0 +1,47 @@
+<Page
+    x:Class="Divar_UWP.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FlowDirection="RightToLeft"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border Padding="16,10" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+            <TextBlock Text="Divar_UWP" Foreground="White" FontSize="20" FontWeight="SemiBold" />
+        </Border>
+
+        <Frame x:Name="ContentFrame" Grid.Row="1" />
+
+        <CommandBar Grid.Row="2" ClosedDisplayMode="Compact" IsOpen="False">
+            <AppBarButton Label="شهر" Command="{Binding ShowCitiesCommand}">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Home" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Label="خانه" Command="{Binding ShowHomeCommand}">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Document" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Label="جستجو" Command="{Binding ShowSearchCommand}">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Find" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Label="آگهی‌ها" Command="{Binding ShowPostListCommand}">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="List" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </CommandBar>
+    </Grid>
+</Page>
