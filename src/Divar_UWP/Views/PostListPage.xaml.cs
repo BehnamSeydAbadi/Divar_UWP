@@ -18,7 +18,7 @@ namespace Divar_UWP.Views
         public PostListPage()
         {
             InitializeComponent();
-            _viewModel = new PostListViewModel(AppServices.Current.SearchService, AppServices.Current.SelectionStore);
+            _viewModel = new PostListViewModel(AppServices.Current.SearchService, AppServices.Current.SelectionStore, AppServices.Current.Navigation);
             DataContext = _viewModel;
         }
 

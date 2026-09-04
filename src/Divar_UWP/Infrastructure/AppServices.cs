@@ -16,6 +16,7 @@ namespace Divar_UWP.Infrastructure
             CityService = new DivarCityService(ApiClient);
             CategoryService = new DivarCategoryService(ApiClient);
             SearchService = new DivarSearchService(ApiClient);
+            FilterService = new DivarFilterService(ApiClient);
         }
 
         public static AppServices Current
@@ -34,6 +35,8 @@ namespace Divar_UWP.Infrastructure
         public IDivarCategoryService CategoryService { get; private set; }
 
         public IDivarSearchService SearchService { get; private set; }
+
+        public IDivarFilterService FilterService { get; private set; }
 
         public INavigationService Navigation { get; private set; }
 

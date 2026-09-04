@@ -7,7 +7,11 @@
     mc:Ignorable="d" FlowDirection="RightToLeft" Background="{ThemeResource DivarPageBrush}">
     <Grid>
         <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
-        <TextBlock Padding="20,14,20,12" Text="{Binding FeedTitle}" Style="{StaticResource DivarPageTitleStyle}" />
+        <Grid Padding="20,10,20,10">
+            <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding FeedTitle}" Style="{StaticResource DivarPageTitleStyle}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+            <Button Grid.Column="1" Margin="10,0,0,0" Content="{Binding FilterButtonText}" Command="{Binding OpenFiltersCommand}" Style="{StaticResource DivarSecondaryButtonStyle}" />
+        </Grid>
         <Border Grid.Row="1" BorderBrush="{ThemeResource DivarDividerBrush}" BorderThickness="0,1,0,0">
             <Grid>
                 <ListView ItemsSource="{Binding Posts}"

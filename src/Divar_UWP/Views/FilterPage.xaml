@@ -1,0 +1,45 @@
+<Page
+    x:Class="Divar_UWP.Views.FilterPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    FlowDirection="RightToLeft" Background="{ThemeResource DivarPageBrush}">
+    <Grid>
+        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+        <Grid Padding="20,14,20,12">
+            <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+            <TextBlock Text="فیلترها" Style="{StaticResource DivarPageTitleStyle}" />
+            <Button Grid.Column="1" Margin="10,0,0,0" Content="پاک کردن" Click="OnClearClick" Background="Transparent" Foreground="{StaticResource DivarAccentBrush}" />
+        </Grid>
+        <Grid Grid.Row="1">
+            <ListView ItemsSource="{Binding Filters}" SelectionMode="None">
+                <ListView.ItemContainerStyle><Style TargetType="ListViewItem"><Setter Property="HorizontalContentAlignment" Value="Stretch" /></Style></ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Padding="20,12" BorderBrush="{ThemeResource DivarDividerBrush}" BorderThickness="0,0,0,1">
+                            <TextBlock Text="{Binding Title}" Foreground="{ThemeResource DivarTextBrush}" FontSize="15" FontWeight="SemiBold" />
+                            <Grid Margin="0,10,0,0" Visibility="{Binding IsNumberRange, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="10" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                                <TextBox PlaceholderText="از" Text="{Binding Minimum, Mode=TwoWay}" InputScope="Number" Style="{StaticResource DivarTextBoxStyle}" />
+                                <TextBox Grid.Column="2" PlaceholderText="تا" Text="{Binding Maximum, Mode=TwoWay}" InputScope="Number" Style="{StaticResource DivarTextBoxStyle}" />
+                            </Grid>
+                            <ToggleSwitch Margin="0,8,0,0" IsOn="{Binding BooleanValue, Mode=TwoWay}" OnContent="فعال" OffContent="غیرفعال" Visibility="{Binding IsBoolean, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <ComboBox Margin="0,8,0,0" ItemsSource="{Binding Options}" SelectedItem="{Binding SelectedOption, Mode=TwoWay}" DisplayMemberPath="Display" PlaceholderText="انتخاب" HorizontalAlignment="Stretch" Visibility="{Binding IsSingleSelect, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <ItemsControl Margin="0,8,0,0" ItemsSource="{Binding Options}" Visibility="{Binding IsMultiSelect, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <ItemsControl.ItemTemplate><DataTemplate><CheckBox Content="{Binding Display}" IsChecked="{Binding IsSelected, Mode=TwoWay}" /></DataTemplate></ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ProgressRing IsActive="{Binding IsLoading}" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" Width="36" Height="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <StackPanel Margin="24" VerticalAlignment="Center" Visibility="{Binding HasError, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock Text="{Binding ErrorMessage}" Style="{StaticResource DivarBodyStyle}" TextAlignment="Center" />
+                <Button Margin="0,16,0,0" Content="تلاش دوباره" Click="OnRetryClick" Style="{StaticResource DivarPrimaryButtonStyle}" />
+            </StackPanel>
+        </Grid>
+        <StackPanel Grid.Row="2" Padding="20,10" Background="{ThemeResource DivarSurfaceBrush}">
+            <TextBlock Margin="0,0,0,8" Text="{Binding ValidationMessage}" Foreground="{StaticResource DivarAccentBrush}" Visibility="{Binding ValidationMessage, Converter={StaticResource StringToVisibilityConverter}}" />
+            <Button Content="اعمال فیلترها" Click="OnApplyClick" Style="{StaticResource DivarPrimaryButtonStyle}" HorizontalAlignment="Stretch" />
+        </StackPanel>
+    </Grid>
+</Page>

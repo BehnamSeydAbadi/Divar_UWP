@@ -162,6 +162,9 @@
     <Compile Include="Models\DivarCity.cs" />
     <Compile Include="Models\DivarPage.cs" />
     <Compile Include="Models\DivarFeedNavigationParameter.cs" />
+    <Compile Include="Models\DivarFilterDefinition.cs" />
+    <Compile Include="Models\DivarFilterKind.cs" />
+    <Compile Include="Models\DivarFilterOption.cs" />
     <Compile Include="Models\DivarPostDetails.cs" />
     <Compile Include="Models\DivarPostSummary.cs" />
     <Compile Include="Models\DivarSearchRequest.cs" />
@@ -171,15 +174,18 @@
     <Compile Include="Services\DivarCategoryService.cs" />
     <Compile Include="Services\DivarCityService.cs" />
     <Compile Include="Services\DivarSearchService.cs" />
+    <Compile Include="Services\DivarFilterService.cs" />
     <Compile Include="Services\IDivarBookmarkService.cs" />
     <Compile Include="Services\IDivarCategoryService.cs" />
     <Compile Include="Services\IDivarChatService.cs" />
     <Compile Include="Services\IDivarCityService.cs" />
     <Compile Include="Services\IDivarPostService.cs" />
     <Compile Include="Services\IDivarSearchService.cs" />
+    <Compile Include="Services\IDivarFilterService.cs" />
     <Compile Include="ViewModels\CitySelectionViewModel.cs" />
     <Compile Include="ViewModels\CategoriesViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="ViewModels\FilterViewModel.cs" />
     <Compile Include="ViewModels\PageViewModelBase.cs" />
     <Compile Include="ViewModels\PostDetailsViewModel.cs" />
     <Compile Include="ViewModels\PostListViewModel.cs" />
@@ -193,6 +199,9 @@
     </Compile>
     <Compile Include="Views\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FilterPage.xaml.cs">
+      <DependentUpon>FilterPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PostDetailsPage.xaml.cs">
       <DependentUpon>PostDetailsPage.xaml</DependentUpon>
@@ -277,6 +286,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\HomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FilterPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

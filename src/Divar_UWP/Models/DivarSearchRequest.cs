@@ -18,5 +18,7 @@ namespace Divar_UWP.Models
         public string PaginationDataJson { get; set; }
 
         public string SearchDataJson { get; set; }
+
+        public string FilterDataJson { get; set; }
     }
 }

@@ -104,6 +104,7 @@ namespace Divar_UWP.Services
                 var data = new JsonObject();
                 data["category"] = StringField(string.IsNullOrWhiteSpace(request.CategorySlug) ? "ROOT" : request.CategorySlug);
                 if (!string.IsNullOrWhiteSpace(request.Query)) data["query"] = StringField(request.Query.Trim());
+                MergeFilters(data, request.FilterDataJson);
                 var formData = new JsonObject();
                 formData["data"] = data;
                 searchData = new JsonObject();
@@ -115,6 +116,13 @@ namespace Divar_UWP.Services
             if (!string.IsNullOrWhiteSpace(request.PaginationDataJson) && JsonObject.TryParse(request.PaginationDataJson, out pagination))
                 root["pagination_data"] = pagination;
             return root;
+        }
+
+        private static void MergeFilters(JsonObject data, string filterDataJson)
+        {
+            JsonObject filters;
+            if (string.IsNullOrWhiteSpace(filterDataJson) || !JsonObject.TryParse(filterDataJson, out filters)) return;
+            foreach (var item in filters) data[item.Key] = item.Value;
         }
 
         private static JsonObject StringField(string value)

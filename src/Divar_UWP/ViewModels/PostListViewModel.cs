@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Divar_UWP.Infrastructure;
 using Divar_UWP.Models;
 using Divar_UWP.Services;
+using Divar_UWP.Views;
 
 namespace Divar_UWP.ViewModels
 {
@@ -23,14 +25,16 @@ namespace Divar_UWP.ViewModels
         private bool _isEmpty;
         private string _errorMessage;
         private string _feedTitle;
+        private string _filterButtonText;
 
-        public PostListViewModel(IDivarSearchService searchService, IDivarSelectionStore selectionStore)
+        public PostListViewModel(IDivarSearchService searchService, IDivarSelectionStore selectionStore, INavigationService navigation)
             : base("آگهی‌ها")
         {
             _searchService = searchService ?? throw new ArgumentNullException(nameof(searchService));
             _selectionStore = selectionStore ?? throw new ArgumentNullException(nameof(selectionStore));
             Posts = new IncrementalPostCollection(LoadNextPageAsync);
             FeedTitle = "آگهی‌ها";
+            OpenFiltersCommand = new RelayCommand(() => navigation.Navigate(typeof(FilterPage), _parameter));
         }
 
         public IncrementalPostCollection Posts { get; private set; }
@@ -40,11 +44,14 @@ namespace Divar_UWP.ViewModels
         public bool IsEmpty { get { return _isEmpty; } private set { SetProperty(ref _isEmpty, value); } }
         public string ErrorMessage { get { return _errorMessage; } private set { SetProperty(ref _errorMessage, value); } }
         public string FeedTitle { get { return _feedTitle; } private set { SetProperty(ref _feedTitle, value); } }
+        public string FilterButtonText { get { return _filterButtonText; } private set { SetProperty(ref _filterButtonText, value); } }
+        public ICommand OpenFiltersCommand { get; private set; }
 
         public async Task InitializeAsync(DivarFeedNavigationParameter parameter, CancellationToken cancellationToken)
         {
             _parameter = parameter ?? new DivarFeedNavigationParameter();
             _pageCancellationToken = cancellationToken;
+            FilterButtonText = _parameter.ActiveFilterCount > 0 ? "فیلترها (" + _parameter.ActiveFilterCount + ")" : "فیلترها";
             FeedTitle = string.IsNullOrWhiteSpace(_parameter.Title)
                 ? (string.IsNullOrWhiteSpace(_parameter.Query) ? "آگهی‌ها" : "نتایج «" + _parameter.Query.Trim() + "»")
                 : _parameter.Title;
@@ -93,7 +100,8 @@ namespace Divar_UWP.ViewModels
                 Query = _parameter.Query,
                 CategorySlug = string.IsNullOrWhiteSpace(_parameter.CategorySlug) ? "ROOT" : _parameter.CategorySlug,
                 PaginationDataJson = isNextPage ? _paginationDataJson : null,
-                SearchDataJson = isNextPage ? _searchDataJson : null
+                SearchDataJson = isNextPage ? _searchDataJson : null,
+                FilterDataJson = _parameter.FilterDataJson
             };
             request.CityIds.Add(city.Id);
             var result = await _searchService.SearchAsync(request, cancellationToken);
