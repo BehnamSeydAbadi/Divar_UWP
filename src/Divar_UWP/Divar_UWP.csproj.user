@@ -4,6 +4,14 @@
     <AppxPackageIsForStore>False</AppxPackageIsForStore>
     <AppxBuildConfigurationSelection>arm</AppxBuildConfigurationSelection>
     <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
+    <Source>C:\Users\Admin\Desktop\66144598.png</Source>
+    <SmallTileSource>C:\Users\Admin\Desktop\66144598.png</SmallTileSource>
+    <MediumTileSource>C:\Users\Admin\Desktop\66144598.png</MediumTileSource>
+    <WideTileSource>C:\Users\Admin\Desktop\66144598.png</WideTileSource>
+    <LargeTileSource>C:\Users\Admin\Desktop\66144598.png</LargeTileSource>
+    <AppIconSource>C:\Users\Admin\Desktop\66144598.png</AppIconSource>
+    <SplashScreenSource>C:\Users\Admin\Desktop\66144598.png</SplashScreenSource>
+    <PackageLogoSource>C:\Users\Admin\Desktop\66144598.png</PackageLogoSource>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DeviceId>30F105C9-681E-420b-A277-7C086EAD8A4E</DeviceId>
