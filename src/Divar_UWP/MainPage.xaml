@@ -87,6 +87,13 @@
                                     <TextBlock Text="آگهی‌ها" FlowDirection="RightToLeft" TextAlignment="Right" VerticalAlignment="Center" />
                                 </StackPanel>
                             </Button>
+                            <Button Command="{Binding ShowAuthCommand}" Click="OnNavigationItemClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" FlowDirection="LeftToRight" MinHeight="48" Background="Transparent" Foreground="{ThemeResource DivarTextBrush}" BorderThickness="0">
+                                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalAlignment="Right">
+                                    <FontIcon Glyph="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="18" Foreground="{ThemeResource DivarMutedTextBrush}" />
+                                    <Border Width="12" />
+                                    <TextBlock Text="{Binding AuthMenuText}" FlowDirection="RightToLeft" TextAlignment="Right" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
                         </StackPanel>
 
                         <StackPanel Grid.Row="2">

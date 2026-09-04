@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -84,6 +85,10 @@ namespace Divar_UWP.Infrastructure
                         var bytes = await response.Content.ReadAsByteArrayAsync();
                         cancellationToken.ThrowIfCancellationRequested();
                         var body = DecodeUtf8(bytes);
+                        var refreshedToken = GetHeader(response, "x-jwt-refresh");
+                        var sessionRemoved = string.Equals(GetHeader(response, "front-token"), "remove", StringComparison.OrdinalIgnoreCase);
+                        if (authenticated && !string.IsNullOrWhiteSpace(refreshedToken)) await _credentialProvider.SaveFrontTokenAsync(refreshedToken, cancellationToken);
+                        if (authenticated && (sessionRemoved || response.StatusCode == System.Net.HttpStatusCode.Unauthorized)) await _credentialProvider.ClearFrontTokenAsync(cancellationToken);
 
                         if (response.IsSuccessStatusCode)
                         {
@@ -146,6 +151,12 @@ namespace Divar_UWP.Infrastructure
             }
 
             return Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+        }
+
+        private static string GetHeader(HttpResponseMessage response, string name)
+        {
+            System.Collections.Generic.IEnumerable<string> values;
+            return response.Headers.TryGetValues(name, out values) ? values.FirstOrDefault() ?? string.Empty : string.Empty;
         }
     }
 }

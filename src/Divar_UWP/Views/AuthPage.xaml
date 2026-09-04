@@ -1,0 +1,24 @@
+<Page x:Class="Divar_UWP.Views.AuthPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FlowDirection="RightToLeft" Background="{ThemeResource DivarPageBrush}">
+    <Grid Padding="20">
+        <StackPanel MaxWidth="420">
+            <TextBlock Text="ورود به دیوار" Style="{StaticResource DivarPageTitleStyle}" />
+            <TextBlock Margin="0,8,0,20" Text="برای دریافت اطلاعات تماس و استفاده از امکانات حساب کاربری وارد شوید." Style="{StaticResource DivarBodyStyle}" />
+            <StackPanel Visibility="{Binding NeedsPhone, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock Text="شمارهٔ موبایل" Style="{StaticResource DivarSectionTitleStyle}" />
+                <TextBox Margin="0,8,0,0" Text="{Binding PhoneNumber, Mode=TwoWay}" PlaceholderText="۰۹۱۲۱۲۳۴۵۶۷" InputScope="TelephoneNumber" Style="{StaticResource DivarTextBoxStyle}" FlowDirection="LeftToRight" TextAlignment="Left" />
+                <Button Margin="0,16,0,0" Content="ارسال کد ورود" Click="OnSendCodeClick" Style="{StaticResource DivarPrimaryButtonStyle}" />
+            </StackPanel>
+            <StackPanel Visibility="{Binding NeedsCode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock Text="کد ورود" Style="{StaticResource DivarSectionTitleStyle}" />
+                <TextBox Margin="0,8,0,0" Text="{Binding Code, Mode=TwoWay}" PlaceholderText="کد پیامک‌شده" InputScope="Number" Style="{StaticResource DivarTextBoxStyle}" FlowDirection="LeftToRight" TextAlignment="Left" />
+                <Button Margin="0,16,0,0" Content="تأیید و ورود" Click="OnConfirmCodeClick" Style="{StaticResource DivarPrimaryButtonStyle}" />
+            </StackPanel>
+            <StackPanel Visibility="{Binding IsAuthenticated, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock Text="وارد حساب کاربری شده‌اید." Style="{StaticResource DivarSectionTitleStyle}" />
+                <Button Margin="0,16,0,0" Content="خروج از حساب" Click="OnLogoutClick" Style="{StaticResource DivarSecondaryButtonStyle}" />
+            </StackPanel>
+            <ProgressRing Margin="0,18,0,0" Width="28" Height="28" HorizontalAlignment="Center" IsActive="{Binding IsBusy}" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <TextBlock Margin="0,16,0,0" Text="{Binding Message}" Style="{StaticResource DivarBodyStyle}" Visibility="{Binding HasMessage, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        </StackPanel>
+    </Grid>
+</Page>

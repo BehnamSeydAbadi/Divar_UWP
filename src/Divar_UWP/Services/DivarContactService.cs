@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Divar_UWP.Infrastructure;
@@ -37,6 +38,8 @@ namespace Divar_UWP.Services
                 if (!JsonObject.TryParse(response.Content, out root)) return ServiceResult<DivarContactResult>.Failure("پاسخ اطلاعات تماس قابل خواندن نیست.");
                 var phoneUri = FindTelephoneUri(root);
                 if (!string.IsNullOrWhiteSpace(phoneUri)) return ServiceResult<DivarContactResult>.Success(new DivarContactResult { PhoneNumber = phoneUri.Substring(4) });
+                var phoneNumber = FindIranianMobileNumber(root);
+                if (!string.IsNullOrWhiteSpace(phoneNumber)) return ServiceResult<DivarContactResult>.Success(new DivarContactResult { PhoneNumber = phoneNumber });
 
                 JsonObject hipAction;
                 if (TryGetObject(root, "hip_action", out hipAction)) return ServiceResult<DivarContactResult>.Success(new DivarContactResult { ChallengeRequired = true, Message = "دیوار برای نمایش شماره، تکمیل بررسی امنیتی را لازم دانسته است." });
@@ -58,6 +61,29 @@ namespace Divar_UWP.Services
                 foreach (var item in value.GetObject()) { var found = FindTelephoneUri(item.Value); if (!string.IsNullOrWhiteSpace(found)) return found; }
             else if (value.ValueType == JsonValueType.Array)
                 foreach (var item in value.GetArray()) { var found = FindTelephoneUri(item); if (!string.IsNullOrWhiteSpace(found)) return found; }
+            return string.Empty;
+        }
+
+        private static string FindIranianMobileNumber(IJsonValue value)
+        {
+            if (value == null) return string.Empty;
+            if (value.ValueType == JsonValueType.String) return NormalizeIranianMobile(value.GetString());
+            if (value.ValueType == JsonValueType.Object)
+                foreach (var item in value.GetObject()) { var found = FindIranianMobileNumber(item.Value); if (!string.IsNullOrWhiteSpace(found)) return found; }
+            else if (value.ValueType == JsonValueType.Array)
+                foreach (var item in value.GetArray()) { var found = FindIranianMobileNumber(item); if (!string.IsNullOrWhiteSpace(found)) return found; }
+            return string.Empty;
+        }
+
+        private static string NormalizeIranianMobile(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value)) return string.Empty;
+            var digits = value.Replace('۰', '0').Replace('۱', '1').Replace('۲', '2').Replace('۳', '3').Replace('۴', '4').Replace('۵', '5').Replace('۶', '6').Replace('۷', '7').Replace('۸', '8').Replace('۹', '9');
+            for (var index = 0; index <= digits.Length - 11; index++)
+            {
+                var candidate = digits.Substring(index, 11);
+                if (candidate.StartsWith("09", StringComparison.Ordinal) && candidate.All(char.IsDigit)) return candidate;
+            }
             return string.Empty;
         }
 

@@ -10,7 +10,7 @@ namespace Divar_UWP.Infrastructure
 
         private AppServices()
         {
-            CredentialProvider = new EmptyDivarCredentialProvider();
+            CredentialProvider = new PasswordVaultDivarCredentialProvider();
             ApiClient = new DivarApiClient(CredentialProvider);
             SelectionStore = new DivarSelectionStore();
             CityService = new DivarCityService(ApiClient);
@@ -19,6 +19,7 @@ namespace Divar_UWP.Infrastructure
             FilterService = new DivarFilterService(ApiClient);
             PostService = new DivarPostService(ApiClient);
             ContactService = new DivarContactService(ApiClient);
+            AuthService = new DivarAuthService(ApiClient, CredentialProvider);
         }
 
         public static AppServices Current
@@ -43,6 +44,8 @@ namespace Divar_UWP.Infrastructure
         public IDivarPostService PostService { get; private set; }
 
         public IDivarContactService ContactService { get; private set; }
+
+        public IDivarAuthService AuthService { get; private set; }
 
         public INavigationService Navigation { get; private set; }
 

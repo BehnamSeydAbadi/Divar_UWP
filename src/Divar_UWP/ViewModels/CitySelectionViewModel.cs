@@ -77,7 +77,7 @@ namespace Divar_UWP.ViewModels
         {
             if (city == null) return;
             _selectionStore.SaveSelectedCity(city);
-            _navigation.Navigate(typeof(HomePage));
+            _navigation.Navigate(typeof(PostListPage));
         }
     }
 }

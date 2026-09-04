@@ -17,7 +17,7 @@ namespace Divar_UWP
             InitializeComponent();
 
             AppServices.Current.InitializeNavigation(ContentFrame);
-            _shellViewModel = new ShellViewModel(AppServices.Current.Navigation, AppServices.Current.SelectionStore);
+            _shellViewModel = new ShellViewModel(AppServices.Current.Navigation, AppServices.Current.SelectionStore, AppServices.Current.AuthService);
             DataContext = _shellViewModel;
 
             ContentFrame.Navigated += OnContentFrameNavigated;
@@ -27,7 +27,7 @@ namespace Divar_UWP
             AppServices.Current.Navigation.Navigate(
                 AppServices.Current.SelectionStore.GetSelectedCity() == null
                     ? typeof(CitySelectionPage)
-                    : typeof(HomePage));
+                    : typeof(PostListPage));
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -67,6 +67,7 @@ namespace Divar_UWP
         private void OnMenuButtonClick(object sender, RoutedEventArgs e)
         {
             _shellViewModel.RefreshSelection();
+            _shellViewModel.RefreshAuthState();
             NavigationSplitView.IsPaneOpen = !NavigationSplitView.IsPaneOpen;
         }
 
