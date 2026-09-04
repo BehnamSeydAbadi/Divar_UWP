@@ -31,6 +31,8 @@ namespace Divar_UWP.Models
 
         public bool ChatEnabled { get; set; }
 
+        public string ContactUuid { get; set; }
+
         public IList<string> ImageUrls { get; private set; }
 
         public IList<DivarPostImage> Images { get; private set; }

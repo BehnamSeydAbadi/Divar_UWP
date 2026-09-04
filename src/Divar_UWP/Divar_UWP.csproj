@@ -161,6 +161,7 @@
     <Compile Include="Models\DivarBookmark.cs" />
     <Compile Include="Models\DivarCategory.cs" />
     <Compile Include="Models\DivarChatSession.cs" />
+    <Compile Include="Models\DivarContactResult.cs" />
     <Compile Include="Models\DivarCity.cs" />
     <Compile Include="Models\DivarPage.cs" />
     <Compile Include="Models\DivarFeedNavigationParameter.cs" />
@@ -178,11 +179,13 @@
     <Compile Include="Services\IDivarAuthService.cs" />
     <Compile Include="Services\DivarCategoryService.cs" />
     <Compile Include="Services\DivarCityService.cs" />
+    <Compile Include="Services\DivarContactService.cs" />
     <Compile Include="Services\DivarSearchService.cs" />
     <Compile Include="Services\DivarFilterService.cs" />
     <Compile Include="Services\IDivarBookmarkService.cs" />
     <Compile Include="Services\IDivarCategoryService.cs" />
     <Compile Include="Services\IDivarChatService.cs" />
+    <Compile Include="Services\IDivarContactService.cs" />
     <Compile Include="Services\IDivarCityService.cs" />
     <Compile Include="Services\IDivarPostService.cs" />
     <Compile Include="Services\DivarPostService.cs" />

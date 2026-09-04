@@ -18,6 +18,7 @@ namespace Divar_UWP.Infrastructure
             SearchService = new DivarSearchService(ApiClient);
             FilterService = new DivarFilterService(ApiClient);
             PostService = new DivarPostService(ApiClient);
+            ContactService = new DivarContactService(ApiClient);
         }
 
         public static AppServices Current
@@ -40,6 +41,8 @@ namespace Divar_UWP.Infrastructure
         public IDivarFilterService FilterService { get; private set; }
 
         public IDivarPostService PostService { get; private set; }
+
+        public IDivarContactService ContactService { get; private set; }
 
         public INavigationService Navigation { get; private set; }
 

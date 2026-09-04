@@ -40,7 +40,11 @@ namespace Divar_UWP.Services
             JsonObject share;
             if (TryObject(root, "share", out share)) post.ShareUrl = String(share, "web_url");
             JsonObject contact;
-            if (TryObject(root, "contact", out contact)) post.ChatEnabled = Bool(contact, "chat_enabled");
+            if (TryObject(root, "contact", out contact))
+            {
+                post.ChatEnabled = Bool(contact, "chat_enabled");
+                post.ContactUuid = String(contact, "contact_uuid");
+            }
 
             JsonArray sections;
             if (!TryArray(root, "sections", out sections)) return post;
