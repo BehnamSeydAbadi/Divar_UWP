@@ -6,7 +6,6 @@ using Divar_UWP.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Windows.System;
 
@@ -83,7 +82,7 @@ namespace Divar_UWP.Views
             Gallery.SelectedIndex = imageIndex;
             var image = _viewModel.Details.Images[imageIndex];
             var sourceUrl = string.IsNullOrWhiteSpace(image.FullUrl) ? image.DisplayUrl : image.FullUrl;
-            if (!string.IsNullOrWhiteSpace(sourceUrl)) ImageViewerImage.Source = new BitmapImage(new Uri(sourceUrl));
+            if (!string.IsNullOrWhiteSpace(sourceUrl)) ImageViewerImage.Source = DivarImageCache.CreatePreview(sourceUrl, 1440);
             ImageViewerScrollViewer.ChangeView(null, null, 1.0f, true);
             PreviousImageButton.IsEnabled = imageIndex > 0;
             NextImageButton.IsEnabled = imageIndex < _viewModel.Details.Images.Count - 1;

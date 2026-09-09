@@ -139,6 +139,7 @@ namespace Divar_UWP.ViewModels
             _paginationDataJson = page.PaginationDataJson;
             _searchDataJson = page.SearchDataJson;
             Posts.SetHasMoreItems(page.HasNextPage && !string.IsNullOrWhiteSpace(_paginationDataJson));
+            DivarDiagnostics.FeedPage(isNextPage, page.Items.Count, (int)added, page.HasNextPage);
             return added;
         }
     }

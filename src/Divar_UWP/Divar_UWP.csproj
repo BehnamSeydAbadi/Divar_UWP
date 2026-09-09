@@ -139,10 +139,13 @@
     <Compile Include="Converters\ThumbnailConverter.cs" />
     <Compile Include="Converters\PreviewImageConverter.cs" />
     <Compile Include="Infrastructure\AppServices.cs" />
+    <Compile Include="Infrastructure\BoundedMemoryCache.cs" />
     <Compile Include="Infrastructure\DivarApiClient.cs" />
     <Compile Include="Infrastructure\DivarApiOptions.cs" />
     <Compile Include="Infrastructure\DivarApiResponse.cs" />
     <Compile Include="Infrastructure\DivarImageUrl.cs" />
+    <Compile Include="Infrastructure\DivarImageCache.cs" />
+    <Compile Include="Infrastructure\DivarDiagnostics.cs" />
     <Compile Include="Infrastructure\DivarPostWidgetParser.cs" />
     <Compile Include="Infrastructure\DivarSelectionStore.cs" />
     <Compile Include="Infrastructure\EmptyDivarCredentialProvider.cs" />

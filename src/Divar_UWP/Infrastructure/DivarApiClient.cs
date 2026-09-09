@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Divar_UWP.Infrastructure
     public sealed class DivarApiClient : IDivarApiClient
     {
         private static readonly HttpClient SharedHttpClient = CreateHttpClient();
+        private static readonly BoundedMemoryCache<DivarApiResponse> PublicGetCache = new BoundedMemoryCache<DivarApiResponse>(24);
         private readonly IDivarCredentialProvider _credentialProvider;
 
         public DivarApiClient(IDivarCredentialProvider credentialProvider)
@@ -28,7 +30,21 @@ namespace Divar_UWP.Infrastructure
             CancellationToken cancellationToken,
             bool authenticated = false)
         {
-            return SendAsync(HttpMethod.Get, relativePath, null, cancellationToken, authenticated);
+            DivarApiResponse cached;
+            if (!authenticated && IsCacheableGet(relativePath) && PublicGetCache.TryGet(relativePath, out cached))
+            {
+                DivarDiagnostics.Api("GET", relativePath, 0, cached.StatusCode.HasValue ? (int?)cached.StatusCode.Value : null, true);
+                return Task.FromResult(cached);
+            }
+            return GetWithRetryAsync(relativePath, cancellationToken, authenticated);
+        }
+
+        private async Task<DivarApiResponse> GetWithRetryAsync(string relativePath, CancellationToken cancellationToken, bool authenticated)
+        {
+            var response = await SendAsync(HttpMethod.Get, relativePath, null, cancellationToken, authenticated);
+            if (!IsTransient(response) || cancellationToken.IsCancellationRequested) return response;
+            await Task.Delay(350, cancellationToken);
+            return await SendAsync(HttpMethod.Get, relativePath, null, cancellationToken, authenticated);
         }
 
         public Task<DivarApiResponse> PostJsonAsync(
@@ -56,6 +72,7 @@ namespace Divar_UWP.Infrastructure
             CancellationToken cancellationToken,
             bool authenticated)
         {
+            var stopwatch = Stopwatch.StartNew();
             if (string.IsNullOrWhiteSpace(relativePath))
             {
                 return DivarApiResponse.Failure(null, string.Empty, "The API path is required.");
@@ -76,7 +93,9 @@ namespace Divar_UWP.Infrastructure
                     var frontToken = await _credentialProvider.GetFrontTokenAsync(cancellationToken);
                     if (string.IsNullOrWhiteSpace(frontToken))
                     {
-                        return DivarApiResponse.Failure(null, string.Empty, "Authentication is required.");
+                        var missing = DivarApiResponse.Failure(null, string.Empty, "Authentication is required.");
+                        DivarDiagnostics.Api(method.Method, relativePath, stopwatch.ElapsedMilliseconds, null, false);
+                        return missing;
                     }
 
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", frontToken);
@@ -96,17 +115,27 @@ namespace Divar_UWP.Infrastructure
                         var refreshedToken = GetHeader(response, "x-jwt-refresh");
                         var sessionRemoved = string.Equals(GetHeader(response, "front-token"), "remove", StringComparison.OrdinalIgnoreCase);
                         if (authenticated && !string.IsNullOrWhiteSpace(refreshedToken)) await _credentialProvider.SaveFrontTokenAsync(refreshedToken, cancellationToken);
-                        if (authenticated && (sessionRemoved || response.StatusCode == System.Net.HttpStatusCode.Unauthorized)) await _credentialProvider.ClearFrontTokenAsync(cancellationToken);
+                        if (authenticated && (sessionRemoved || response.StatusCode == System.Net.HttpStatusCode.Unauthorized))
+                        {
+                            await _credentialProvider.ClearFrontTokenAsync(cancellationToken);
+                            DivarDiagnostics.AuthenticationExpired();
+                        }
 
                         if (response.IsSuccessStatusCode)
                         {
-                            return DivarApiResponse.Success(response.StatusCode, body);
+                            var success = DivarApiResponse.Success(response.StatusCode, body);
+                            if (!authenticated && method == HttpMethod.Get && IsCacheableGet(relativePath))
+                                PublicGetCache.Set(relativePath, success, CacheLifetime(relativePath));
+                            DivarDiagnostics.Api(method.Method, relativePath, stopwatch.ElapsedMilliseconds, (int)response.StatusCode, false);
+                            return success;
                         }
 
-                        return DivarApiResponse.Failure(
+                        var failure = DivarApiResponse.Failure(
                             response.StatusCode,
                             body,
                             "Divar returned HTTP " + (int)response.StatusCode + ".");
+                        DivarDiagnostics.Api(method.Method, relativePath, stopwatch.ElapsedMilliseconds, (int)response.StatusCode, false);
+                        return failure;
                     }
                 }
                 catch (OperationCanceledException)
@@ -116,14 +145,17 @@ namespace Divar_UWP.Infrastructure
                         throw;
                     }
 
+                    DivarDiagnostics.Api(method.Method, relativePath, stopwatch.ElapsedMilliseconds, null, false);
                     return DivarApiResponse.Failure(null, string.Empty, "The request timed out.");
                 }
                 catch (HttpRequestException)
                 {
+                    DivarDiagnostics.Api(method.Method, relativePath, stopwatch.ElapsedMilliseconds, null, false);
                     return DivarApiResponse.Failure(null, string.Empty, "The network request failed.");
                 }
                 catch (Exception)
                 {
+                    DivarDiagnostics.Api(method.Method, relativePath, stopwatch.ElapsedMilliseconds, null, false);
                     return DivarApiResponse.Failure(null, string.Empty, "An unexpected API error occurred.");
                 }
             }
@@ -149,6 +181,31 @@ namespace Divar_UWP.Infrastructure
             client.DefaultRequestHeaders.Add("X-Standard-Divar-Error", "true");
 
             return client;
+        }
+
+        public static void ClearPublicCache()
+        {
+            PublicGetCache.Clear();
+        }
+
+        private static bool IsCacheableGet(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path)) return false;
+            return path.StartsWith("v8/places/cities", StringComparison.OrdinalIgnoreCase) ||
+                   path.StartsWith("v1/open-platform/assets/category", StringComparison.OrdinalIgnoreCase) ||
+                   path.StartsWith("v8/posts-v2/web/", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static TimeSpan CacheLifetime(string path)
+        {
+            return path.StartsWith("v8/posts-v2/web/", StringComparison.OrdinalIgnoreCase)
+                ? TimeSpan.FromMinutes(2)
+                : TimeSpan.FromHours(6);
+        }
+
+        private static bool IsTransient(DivarApiResponse response)
+        {
+            return response != null && (!response.StatusCode.HasValue || (int)response.StatusCode.Value >= 500);
         }
 
         private static string DecodeUtf8(byte[] bytes)

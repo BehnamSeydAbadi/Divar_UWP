@@ -11,6 +11,7 @@ namespace Divar_UWP.Services
     public sealed class DivarSearchService : IDivarSearchService
     {
         private const string SearchPath = "v8/postlist/w/search";
+        private static readonly BoundedMemoryCache<DivarPage<DivarPostSummary>> FeedCache = new BoundedMemoryCache<DivarPage<DivarPostSummary>>(6);
         private readonly IDivarApiClient _apiClient;
 
         public DivarSearchService(IDivarApiClient apiClient)
@@ -25,7 +26,18 @@ namespace Divar_UWP.Services
 
             try
             {
-                var response = await _apiClient.PostJsonAsync(SearchPath, BuildRequest(request).Stringify(), cancellationToken);
+                var requestJson = BuildRequest(request).Stringify();
+                var isFirstPage = string.IsNullOrWhiteSpace(request.PaginationDataJson);
+                DivarPage<DivarPostSummary> cached;
+                if (isFirstPage && FeedCache.TryGet(requestJson, out cached))
+                    return ServiceResult<DivarPage<DivarPostSummary>>.Success(cached);
+
+                var response = await _apiClient.PostJsonAsync(SearchPath, requestJson, cancellationToken);
+                if (IsTransient(response))
+                {
+                    await Task.Delay(350, cancellationToken);
+                    response = await _apiClient.PostJsonAsync(SearchPath, requestJson, cancellationToken);
+                }
                 cancellationToken.ThrowIfCancellationRequested();
                 if (!response.IsSuccess)
                     return ServiceResult<DivarPage<DivarPostSummary>>.Failure("دریافت آگهی‌ها ممکن نشد. اتصال اینترنت را بررسی کنید.");
@@ -34,13 +46,22 @@ namespace Divar_UWP.Services
                 if (!JsonObject.TryParse(response.Content, out root))
                     return ServiceResult<DivarPage<DivarPostSummary>>.Failure("پاسخ دریافتی از دیوار قابل خواندن نیست.");
 
-                return ServiceResult<DivarPage<DivarPostSummary>>.Success(ParsePage(root));
+                var page = ParsePage(root);
+                if (isFirstPage) FeedCache.Set(requestJson, page, TimeSpan.FromMinutes(2));
+                return ServiceResult<DivarPage<DivarPostSummary>>.Success(page);
             }
             catch (OperationCanceledException) { throw; }
             catch (Exception)
             {
                 return ServiceResult<DivarPage<DivarPostSummary>>.Failure("خطایی هنگام خواندن آگهی‌ها رخ داد.");
             }
+        }
+
+        public static void ClearCache() { FeedCache.Clear(); }
+
+        private static bool IsTransient(DivarApiResponse response)
+        {
+            return response != null && !response.IsSuccess && (!response.StatusCode.HasValue || (int)response.StatusCode.Value >= 500);
         }
 
         public async Task<ServiceResult<IList<DivarSearchSuggestion>>> GetSuggestionsAsync(string query, IList<string> cityIds, CancellationToken cancellationToken)

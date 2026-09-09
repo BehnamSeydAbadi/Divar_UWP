@@ -16,6 +16,7 @@ namespace Divar_UWP
         {
             InitializeComponent();
 
+            ContentFrame.CacheSize = 2;
             AppServices.Current.InitializeNavigation(ContentFrame);
             _shellViewModel = new ShellViewModel(AppServices.Current.Navigation, AppServices.Current.SelectionStore, AppServices.Current.AuthService);
             DataContext = _shellViewModel;

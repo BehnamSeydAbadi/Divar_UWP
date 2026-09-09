@@ -13,6 +13,7 @@ namespace Divar_UWP.Services
     public sealed class DivarCityService : IDivarCityService
     {
         private const string CitiesPath = "v8/places/cities";
+        private static readonly BoundedMemoryCache<IList<DivarCity>> Cache = new BoundedMemoryCache<IList<DivarCity>>(1);
         private readonly IDivarApiClient _apiClient;
 
         public DivarCityService(IDivarApiClient apiClient)
@@ -22,6 +23,8 @@ namespace Divar_UWP.Services
 
         public async Task<ServiceResult<IList<DivarCity>>> GetCitiesAsync(CancellationToken cancellationToken)
         {
+            IList<DivarCity> cached;
+            if (Cache.TryGet(CitiesPath, out cached)) return ServiceResult<IList<DivarCity>>.Success(cached);
             var response = await _apiClient.GetAsync(CitiesPath, cancellationToken);
             if (!response.IsSuccess)
             {
@@ -68,6 +71,7 @@ namespace Divar_UWP.Services
                     .OrderByDescending(city => city.IsTopCity)
                     .ThenBy(city => city.Name, StringComparer.CurrentCulture)
                     .ToList();
+                Cache.Set(CitiesPath, ordered, TimeSpan.FromHours(6));
                 return ServiceResult<IList<DivarCity>>.Success(ordered);
             }
             catch (OperationCanceledException)
@@ -79,6 +83,8 @@ namespace Divar_UWP.Services
                 return ServiceResult<IList<DivarCity>>.Failure("پاسخ فهرست شهرها قابل پردازش نبود.");
             }
         }
+
+        public static void ClearCache() { Cache.Clear(); }
 
         public async Task<ServiceResult<DivarCity>> FindCityAsync(double latitude, double longitude, CancellationToken cancellationToken)
         {

@@ -30,6 +30,11 @@ namespace Divar_UWP.Services
                 else body["search_data"] = CreateSearchData(categorySlug);
 
                 var response = await _apiClient.PostJsonAsync(FiltersPath, body.Stringify(), cancellationToken);
+                if (!response.IsSuccess && (!response.StatusCode.HasValue || (int)response.StatusCode.Value >= 500))
+                {
+                    await Task.Delay(350, cancellationToken);
+                    response = await _apiClient.PostJsonAsync(FiltersPath, body.Stringify(), cancellationToken);
+                }
                 cancellationToken.ThrowIfCancellationRequested();
                 IList<DivarFilterDefinition> apiFilters = null;
                 if (response.IsSuccess)

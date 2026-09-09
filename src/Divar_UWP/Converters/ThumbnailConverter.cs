@@ -1,6 +1,6 @@
 using System;
+using Divar_UWP.Infrastructure;
 using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Divar_UWP.Converters
 {
@@ -8,10 +8,7 @@ namespace Divar_UWP.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            var url = value as string;
-            Uri uri;
-            if (string.IsNullOrWhiteSpace(url) || !Uri.TryCreate(url, UriKind.Absolute, out uri)) return null;
-            return new BitmapImage(uri) { DecodePixelWidth = 220 };
+            return DivarImageCache.GetThumbnail(value as string, 192);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

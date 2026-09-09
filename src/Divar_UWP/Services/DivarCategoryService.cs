@@ -12,6 +12,7 @@ namespace Divar_UWP.Services
     {
         private const string CategoriesPath = "v1/open-platform/assets/category";
         private const string PathSeparator = " - ";
+        private static readonly BoundedMemoryCache<IList<DivarCategory>> Cache = new BoundedMemoryCache<IList<DivarCategory>>(1);
         private readonly IDivarApiClient _apiClient;
 
         public DivarCategoryService(IDivarApiClient apiClient)
@@ -21,6 +22,8 @@ namespace Divar_UWP.Services
 
         public async Task<ServiceResult<IList<DivarCategory>>> GetCategoriesAsync(CancellationToken cancellationToken)
         {
+            IList<DivarCategory> cached;
+            if (Cache.TryGet(CategoriesPath, out cached)) return ServiceResult<IList<DivarCategory>>.Success(cached);
             var response = await _apiClient.GetAsync(CategoriesPath, cancellationToken);
             if (!response.IsSuccess)
             {
@@ -79,6 +82,7 @@ namespace Divar_UWP.Services
                 }
 
                 SetParentTokens(roots, null);
+                Cache.Set(CategoriesPath, roots, TimeSpan.FromHours(6));
                 return ServiceResult<IList<DivarCategory>>.Success(roots);
             }
             catch (OperationCanceledException)
@@ -90,6 +94,8 @@ namespace Divar_UWP.Services
                 return ServiceResult<IList<DivarCategory>>.Failure("پاسخ دسته‌بندی‌ها قابل پردازش نبود.");
             }
         }
+
+        public static void ClearCache() { Cache.Clear(); }
 
         private static void SetParentTokens(IEnumerable<DivarCategory> categories, string parentToken)
         {

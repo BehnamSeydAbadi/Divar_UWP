@@ -64,5 +64,15 @@ namespace Divar_UWP.Infrastructure
 
             Navigation = new NavigationService(frame);
         }
+
+        public void TrimCaches(string reason)
+        {
+            DivarImageCache.Clear();
+            DivarApiClient.ClearPublicCache();
+            DivarCityService.ClearCache();
+            DivarCategoryService.ClearCache();
+            DivarSearchService.ClearCache();
+            DivarDiagnostics.CacheTrim(reason);
+        }
     }
 }

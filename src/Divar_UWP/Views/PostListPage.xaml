@@ -17,6 +17,8 @@
                 <ListView ItemsSource="{Binding Posts}"
                           IncrementalLoadingTrigger="Edge"
                           IncrementalLoadingThreshold="2"
+                          IsSwipeEnabled="False"
+                          ShowsScrollingPlaceholders="True"
                           SelectionMode="None"
                           IsItemClickEnabled="True" ItemClick="OnPostItemClick"
                           ItemTemplate="{StaticResource DivarPostCardTemplate}">

@@ -18,7 +18,7 @@ namespace Divar_UWP.Views
         public PostListPage()
         {
             InitializeComponent();
-            NavigationCacheMode = NavigationCacheMode.Required;
+            NavigationCacheMode = NavigationCacheMode.Enabled;
             _viewModel = new PostListViewModel(AppServices.Current.SearchService, AppServices.Current.SelectionStore, AppServices.Current.Navigation);
             DataContext = _viewModel;
         }

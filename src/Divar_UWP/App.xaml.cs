@@ -14,6 +14,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Divar_UWP.Infrastructure;
+using Windows.System;
 
 namespace Divar_UWP
 {
@@ -30,6 +32,7 @@ namespace Divar_UWP
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            MemoryManager.AppMemoryUsageIncreased += OnMemoryUsageIncreased;
         }
 
         /// <summary>
@@ -93,8 +96,15 @@ namespace Divar_UWP
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Save application state and stop any background activity
+            DivarImageCache.Clear();
             deferral.Complete();
+        }
+
+        private void OnMemoryUsageIncreased(object sender, object e)
+        {
+            var level = MemoryManager.AppMemoryUsageLevel;
+            if (level == AppMemoryUsageLevel.High || level == AppMemoryUsageLevel.OverLimit)
+                AppServices.Current.TrimCaches(level.ToString());
         }
     }
 }
