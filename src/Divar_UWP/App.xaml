@@ -47,6 +47,25 @@
             <converters:ThumbnailConverter x:Key="ThumbnailConverter" />
             <converters:PreviewImageConverter x:Key="PreviewImageConverter" />
 
+            <DataTemplate x:Key="DivarPostCardTemplate">
+                <Grid MinHeight="116" Padding="16,10" BorderBrush="{ThemeResource DivarDividerBrush}" BorderThickness="0,0,0,1">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="104" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                    <Border Width="96" Height="96" CornerRadius="4" Background="{ThemeResource DivarElevatedSurfaceBrush}" HorizontalAlignment="Right">
+                        <Image Source="{Binding ThumbnailUrl, Converter={StaticResource ThumbnailConverter}}" Stretch="UniformToFill" />
+                    </Border>
+                    <Grid Grid.Column="1" Margin="12,0,0,0">
+                        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                        <TextBlock Text="{Binding Title}" Foreground="{ThemeResource DivarTextBrush}" FontSize="15" FontWeight="SemiBold" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" />
+                        <StackPanel Grid.Row="1" VerticalAlignment="Bottom">
+                            <TextBlock Text="{Binding TopDescription}" Foreground="{ThemeResource DivarMutedTextBrush}" FontFamily="Segoe UI" FontSize="14" Visibility="{Binding TopDescription, Converter={StaticResource StringToVisibilityConverter}}" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding MiddleDescription}" Foreground="{ThemeResource DivarTextBrush}" FontSize="14" TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                        <TextBlock Grid.Row="2" Text="{Binding BottomDescription}" Foreground="{ThemeResource DivarMutedTextBrush}" FontSize="12" TextTrimming="CharacterEllipsis" />
+                        <TextBlock Grid.Row="3" Margin="0,3,0,0" Text="{Binding BadgeText}" Foreground="{StaticResource DivarAccentBrush}" FontSize="12" Visibility="{Binding BadgeText, Converter={StaticResource StringToVisibilityConverter}}" />
+                    </Grid>
+                </Grid>
+            </DataTemplate>
+
             <Style x:Key="DivarPageTitleStyle" TargetType="TextBlock">
                 <Setter Property="Foreground" Value="{ThemeResource DivarTextBrush}" />
                 <Setter Property="FontFamily" Value="Segoe UI" />

@@ -1,0 +1,18 @@
+<Page x:Class="Divar_UWP.Views.MyDivarPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" FlowDirection="RightToLeft" Background="{ThemeResource DivarPageBrush}">
+    <Grid>
+        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
+        <TextBlock Margin="20,12" Text="دیوار من" Style="{StaticResource DivarPageTitleStyle}" />
+        <Border Grid.Row="1" Margin="16,0,16,10" Padding="16" Background="{ThemeResource DivarSurfaceBrush}" BorderBrush="{ThemeResource DivarDividerBrush}" BorderThickness="1" CornerRadius="4">
+            <StackPanel><TextBlock Text="{Binding DisplayName}" Style="{StaticResource DivarSectionTitleStyle}" /><TextBlock Margin="0,5,0,0" Text="{Binding PhoneNumber}" Style="{StaticResource DivarBodyStyle}" Visibility="{Binding PhoneNumber, Converter={StaticResource StringToVisibilityConverter}}" /><TextBlock Margin="0,12,0,0" Text="آگهی‌های من" Style="{StaticResource DivarSectionTitleStyle}" /></StackPanel>
+        </Border>
+        <Grid Grid.Row="2">
+            <ListView ItemsSource="{Binding Posts}" ItemTemplate="{StaticResource DivarPostCardTemplate}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="OnPostItemClick">
+                <ListView.ItemContainerStyle><Style TargetType="ListViewItem"><Setter Property="HorizontalContentAlignment" Value="Stretch" /><Setter Property="Padding" Value="0" /></Style></ListView.ItemContainerStyle>
+            </ListView>
+            <StackPanel Margin="24" VerticalAlignment="Center" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"><ProgressRing Width="34" Height="34" IsActive="True" /><TextBlock Margin="0,12,0,0" Text="در حال دریافت دیوار من…" Style="{StaticResource DivarBodyStyle}" TextAlignment="Center" /></StackPanel>
+            <StackPanel Margin="24" VerticalAlignment="Center" Visibility="{Binding NeedsLogin, Converter={StaticResource BooleanToVisibilityConverter}}"><TextBlock Text="{Binding Message}" Style="{StaticResource DivarBodyStyle}" TextAlignment="Center" /><Button Margin="0,16,0,0" Content="ورود به حساب" Command="{Binding LoginCommand}" Style="{StaticResource DivarPrimaryButtonStyle}" /></StackPanel>
+            <StackPanel Margin="24" VerticalAlignment="Center" Visibility="{Binding HasError, Converter={StaticResource BooleanToVisibilityConverter}}"><TextBlock Text="{Binding Message}" Style="{StaticResource DivarBodyStyle}" TextAlignment="Center" /><Button Margin="0,16,0,0" Content="تلاش دوباره" Click="OnRetryClick" Style="{StaticResource DivarPrimaryButtonStyle}" /></StackPanel>
+            <StackPanel Margin="24" VerticalAlignment="Center" Visibility="{Binding IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"><TextBlock Text="&#xE8A5;" FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource DivarSubtleTextBrush}" FontSize="42" HorizontalAlignment="Center" /><TextBlock Margin="0,14,0,0" Text="در حال حاضر آگهی فعالی ندارید" Style="{StaticResource DivarSectionTitleStyle}" TextAlignment="Center" /></StackPanel>
+        </Grid>
+    </Grid>
+</Page>

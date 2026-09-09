@@ -5,5 +5,7 @@ namespace Divar_UWP.Models
         public string PostToken { get; set; }
 
         public string Note { get; set; }
+
+        public DivarPostSummary Post { get; set; }
     }
 }

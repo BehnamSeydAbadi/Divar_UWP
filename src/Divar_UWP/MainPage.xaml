@@ -58,7 +58,8 @@
                             <Border Margin="0,14,0,0" Height="1" Background="{ThemeResource DivarDividerBrush}" />
                         </StackPanel>
 
-                        <StackPanel Grid.Row="1" Margin="0,12,0,0">
+                        <ScrollViewer Grid.Row="1" Margin="0,12,0,0" VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel>
                             <Button Command="{Binding ShowHomeCommand}" Click="OnNavigationItemClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" FlowDirection="LeftToRight" MinHeight="48" Background="Transparent" Foreground="{ThemeResource DivarTextBrush}" BorderThickness="0">
                                 <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalAlignment="Right">
                                     <FontIcon Glyph="&#xE80F;" FontFamily="Segoe MDL2 Assets" FontSize="18" Foreground="{ThemeResource DivarMutedTextBrush}" />
@@ -87,16 +88,31 @@
                                     <TextBlock Text="آگهی‌ها" FlowDirection="RightToLeft" TextAlignment="Right" VerticalAlignment="Center" />
                                 </StackPanel>
                             </Button>
-                            <Button Command="{Binding ShowAuthCommand}" Click="OnNavigationItemClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" FlowDirection="LeftToRight" MinHeight="48" Background="Transparent" Foreground="{ThemeResource DivarTextBrush}" BorderThickness="0">
+                            <Button Command="{Binding ShowBookmarksCommand}" Click="OnNavigationItemClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" FlowDirection="LeftToRight" MinHeight="48" Background="Transparent" Foreground="{ThemeResource DivarTextBrush}" BorderThickness="0">
+                                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalAlignment="Right">
+                                    <FontIcon Glyph="&#xE734;" FontFamily="Segoe MDL2 Assets" FontSize="18" Foreground="{ThemeResource DivarMutedTextBrush}" />
+                                    <Border Width="12" />
+                                    <TextBlock Text="نشان‌ها" FlowDirection="RightToLeft" TextAlignment="Right" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding ShowMyDivarCommand}" Click="OnNavigationItemClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" FlowDirection="LeftToRight" MinHeight="48" Background="Transparent" Foreground="{ThemeResource DivarTextBrush}" BorderThickness="0">
+                                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalAlignment="Right">
+                                    <FontIcon Glyph="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="18" Foreground="{ThemeResource DivarMutedTextBrush}" />
+                                    <Border Width="12" />
+                                    <TextBlock Text="دیوار من" FlowDirection="RightToLeft" TextAlignment="Right" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                        </ScrollViewer>
+
+                        <StackPanel Grid.Row="2">
+                            <Button Command="{Binding ShowAuthCommand}" Click="OnNavigationItemClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" FlowDirection="LeftToRight" MinHeight="44" Background="Transparent" Foreground="{ThemeResource DivarTextBrush}" BorderThickness="0">
                                 <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalAlignment="Right">
                                     <FontIcon Glyph="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="18" Foreground="{ThemeResource DivarMutedTextBrush}" />
                                     <Border Width="12" />
                                     <TextBlock Text="{Binding AuthMenuText}" FlowDirection="RightToLeft" TextAlignment="Right" VerticalAlignment="Center" />
                                 </StackPanel>
                             </Button>
-                        </StackPanel>
-
-                        <StackPanel Grid.Row="2">
                             <Border Height="1" Background="{ThemeResource DivarDividerBrush}" />
                             <TextBlock Margin="4,14,4,0" Text="نسخهٔ بومی ویندوز ۱۰ موبایل" Style="{StaticResource DivarBodyStyle}" />
                         </StackPanel>

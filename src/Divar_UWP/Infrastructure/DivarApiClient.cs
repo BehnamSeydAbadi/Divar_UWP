@@ -41,6 +41,14 @@ namespace Divar_UWP.Infrastructure
             return SendAsync(HttpMethod.Post, relativePath, content, cancellationToken, authenticated);
         }
 
+        public Task<DivarApiResponse> DeleteAsync(
+            string relativePath,
+            CancellationToken cancellationToken,
+            bool authenticated = false)
+        {
+            return SendAsync(HttpMethod.Delete, relativePath, null, cancellationToken, authenticated);
+        }
+
         private async Task<DivarApiResponse> SendAsync(
             HttpMethod method,
             string relativePath,

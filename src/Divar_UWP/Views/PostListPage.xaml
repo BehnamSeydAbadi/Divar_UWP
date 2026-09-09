@@ -18,7 +18,8 @@
                           IncrementalLoadingTrigger="Edge"
                           IncrementalLoadingThreshold="2"
                           SelectionMode="None"
-                          IsItemClickEnabled="True" ItemClick="OnPostItemClick">
+                          IsItemClickEnabled="True" ItemClick="OnPostItemClick"
+                          ItemTemplate="{StaticResource DivarPostCardTemplate}">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -26,26 +27,6 @@
                             <Setter Property="Margin" Value="0" />
                         </Style>
                     </ListView.ItemContainerStyle>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid MinHeight="116" Padding="16,10" BorderBrush="{ThemeResource DivarDividerBrush}" BorderThickness="0,0,0,1">
-                                <Grid.ColumnDefinitions><ColumnDefinition Width="104" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
-                                <Border Width="96" Height="96" CornerRadius="4" Background="{ThemeResource DivarElevatedSurfaceBrush}" HorizontalAlignment="Right">
-                                    <Image Source="{Binding ThumbnailUrl, Converter={StaticResource ThumbnailConverter}}" Stretch="UniformToFill" />
-                                </Border>
-                                <Grid Grid.Column="1" Margin="12,0,0,0">
-                                    <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
-                                    <TextBlock Text="{Binding Title}" Foreground="{ThemeResource DivarTextBrush}" FontSize="15" FontWeight="SemiBold" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" />
-                                    <StackPanel Grid.Row="1" VerticalAlignment="Bottom">
-                                        <TextBlock Text="{Binding TopDescription}" Style="{StaticResource DivarBodyStyle}" Visibility="{Binding TopDescription, Converter={StaticResource StringToVisibilityConverter}}" TextTrimming="CharacterEllipsis" />
-                                        <TextBlock Text="{Binding MiddleDescription}" Foreground="{ThemeResource DivarTextBrush}" FontSize="14" TextTrimming="CharacterEllipsis" />
-                                    </StackPanel>
-                                    <TextBlock Grid.Row="2" Text="{Binding BottomDescription}" Foreground="{ThemeResource DivarMutedTextBrush}" FontSize="12" TextTrimming="CharacterEllipsis" />
-                                    <TextBlock Grid.Row="3" Margin="0,3,0,0" Text="{Binding BadgeText}" Foreground="{StaticResource DivarAccentBrush}" FontSize="12" Visibility="{Binding BadgeText, Converter={StaticResource StringToVisibilityConverter}}" />
-                                </Grid>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
                     <ListView.Footer>
                         <ProgressRing Margin="0,14" Width="26" Height="26" IsActive="{Binding IsLoadingNextPage}" Visibility="{Binding IsLoadingNextPage, Converter={StaticResource BooleanToVisibilityConverter}}" />
                     </ListView.Footer>

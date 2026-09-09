@@ -15,5 +15,10 @@ namespace Divar_UWP.Infrastructure
             string json,
             CancellationToken cancellationToken,
             bool authenticated = false);
+
+        Task<DivarApiResponse> DeleteAsync(
+            string relativePath,
+            CancellationToken cancellationToken,
+            bool authenticated = false);
     }
 }

@@ -20,6 +20,8 @@ namespace Divar_UWP.Infrastructure
             PostService = new DivarPostService(ApiClient);
             ContactService = new DivarContactService(ApiClient);
             AuthService = new DivarAuthService(ApiClient, CredentialProvider);
+            BookmarkService = new DivarBookmarkService(ApiClient);
+            MyDivarService = new DivarMyDivarService(ApiClient);
         }
 
         public static AppServices Current
@@ -46,6 +48,10 @@ namespace Divar_UWP.Infrastructure
         public IDivarContactService ContactService { get; private set; }
 
         public IDivarAuthService AuthService { get; private set; }
+
+        public IDivarBookmarkService BookmarkService { get; private set; }
+
+        public IDivarMyDivarService MyDivarService { get; private set; }
 
         public INavigationService Navigation { get; private set; }
 

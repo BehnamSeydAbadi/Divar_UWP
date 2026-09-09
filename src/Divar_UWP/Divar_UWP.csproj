@@ -143,6 +143,7 @@
     <Compile Include="Infrastructure\DivarApiOptions.cs" />
     <Compile Include="Infrastructure\DivarApiResponse.cs" />
     <Compile Include="Infrastructure\DivarImageUrl.cs" />
+    <Compile Include="Infrastructure\DivarPostWidgetParser.cs" />
     <Compile Include="Infrastructure\DivarSelectionStore.cs" />
     <Compile Include="Infrastructure\EmptyDivarCredentialProvider.cs" />
     <Compile Include="Infrastructure\PasswordVaultDivarCredentialProvider.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="Models\DivarPostAttribute.cs" />
     <Compile Include="Models\DivarPostNavigationParameter.cs" />
     <Compile Include="Models\DivarPostSummary.cs" />
+    <Compile Include="Models\DivarMyDivarData.cs" />
     <Compile Include="Models\DivarSearchRequest.cs" />
     <Compile Include="Models\DivarSearchSuggestion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -185,6 +187,9 @@
     <Compile Include="Services\DivarSearchService.cs" />
     <Compile Include="Services\DivarFilterService.cs" />
     <Compile Include="Services\IDivarBookmarkService.cs" />
+    <Compile Include="Services\DivarBookmarkService.cs" />
+    <Compile Include="Services\IDivarMyDivarService.cs" />
+    <Compile Include="Services\DivarMyDivarService.cs" />
     <Compile Include="Services\IDivarCategoryService.cs" />
     <Compile Include="Services\IDivarChatService.cs" />
     <Compile Include="Services\IDivarContactService.cs" />
@@ -203,6 +208,8 @@
     <Compile Include="ViewModels\PostListViewModel.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="ViewModels\BookmarksViewModel.cs" />
+    <Compile Include="ViewModels\MyDivarViewModel.cs" />
     <Compile Include="Views\CitySelectionPage.xaml.cs">
       <DependentUpon>CitySelectionPage.xaml</DependentUpon>
     </Compile>
@@ -226,6 +233,12 @@
     </Compile>
     <Compile Include="Views\SearchPage.xaml.cs">
       <DependentUpon>SearchPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BookmarksPage.xaml.cs">
+      <DependentUpon>BookmarksPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MyDivarPage.xaml.cs">
+      <DependentUpon>MyDivarPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -321,6 +334,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SearchPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BookmarksPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MyDivarPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

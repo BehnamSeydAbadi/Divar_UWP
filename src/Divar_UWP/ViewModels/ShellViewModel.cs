@@ -23,6 +23,8 @@ namespace Divar_UWP.ViewModels
             ShowCategoriesCommand = new RelayCommand(() => navigation.Navigate(typeof(CategoriesPage)));
             ShowSearchCommand = new RelayCommand(() => navigation.Navigate(typeof(SearchPage)));
             ShowPostListCommand = new RelayCommand(() => navigation.Navigate(typeof(PostListPage)));
+            ShowBookmarksCommand = new RelayCommand(() => navigation.Navigate(typeof(BookmarksPage)));
+            ShowMyDivarCommand = new RelayCommand(() => navigation.Navigate(typeof(MyDivarPage)));
             ShowAuthCommand = new RelayCommand(() => navigation.Navigate(typeof(AuthPage)));
             RefreshSelection();
             RefreshAuthState();
@@ -35,6 +37,8 @@ namespace Divar_UWP.ViewModels
         public ICommand ShowCategoriesCommand { get; private set; }
         public ICommand ShowSearchCommand { get; private set; }
         public ICommand ShowPostListCommand { get; private set; }
+        public ICommand ShowBookmarksCommand { get; private set; }
+        public ICommand ShowMyDivarCommand { get; private set; }
         public ICommand ShowAuthCommand { get; private set; }
         public string AuthMenuText { get { return _authMenuText; } private set { SetProperty(ref _authMenuText, value); } }
 
