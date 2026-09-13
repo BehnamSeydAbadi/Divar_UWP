@@ -36,13 +36,19 @@
                     <TextBlock Margin="0,10,0,0" Text="{Binding Details.LocationText}" Style="{StaticResource DivarBodyStyle}" Visibility="{Binding Details.LocationText, Converter={StaticResource StringToVisibilityConverter}}" />
                     <TextBlock Margin="0,14,0,0" Text="{Binding Details.PriceText}" Style="{StaticResource DivarSectionTitleStyle}" Visibility="{Binding HasPrice, Converter={StaticResource BooleanToVisibilityConverter}}" />
                     <TextBlock Margin="0,8,0,0" Text="{Binding Details.SellerInfo}" Style="{StaticResource DivarBodyStyle}" Visibility="{Binding Details.SellerInfo, Converter={StaticResource StringToVisibilityConverter}}" />
-                    <StackPanel Margin="0,14,0,0">
-                        <Button Content="{Binding BookmarkButtonText}" Click="OnBookmarkClick" Style="{StaticResource DivarSecondaryButtonStyle}" />
+                    <Grid Margin="0,14,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Margin="0,0,5,0" Content="{Binding BookmarkButtonText}" Click="OnBookmarkClick" Style="{StaticResource DivarSecondaryButtonStyle}" HorizontalAlignment="Stretch" />
+                        <Button Grid.Column="1" Margin="5,0,0,0" Content="اطلاعات تماس" Click="OnContactClick" Style="{StaticResource DivarPrimaryButtonStyle}" HorizontalAlignment="Stretch" Visibility="{Binding Details.Token, Converter={StaticResource StringToVisibilityConverter}}" />
+                    </Grid>
+                    <StackPanel>
                         <ProgressRing Margin="0,8,0,0" Width="22" Height="22" IsActive="{Binding IsBookmarkLoading}" Visibility="{Binding IsBookmarkLoading, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Center" />
                         <TextBlock Margin="0,8,0,0" Text="{Binding BookmarkMessage}" Style="{StaticResource DivarBodyStyle}" TextAlignment="Center" Visibility="{Binding HasBookmarkMessage, Converter={StaticResource BooleanToVisibilityConverter}}" />
                     </StackPanel>
-                    <StackPanel Margin="0,18,0,0" Visibility="{Binding Details.Token, Converter={StaticResource StringToVisibilityConverter}}">
-                        <Button Content="اطلاعات تماس" Click="OnContactClick" Style="{StaticResource DivarPrimaryButtonStyle}" />
+                    <StackPanel Visibility="{Binding Details.Token, Converter={StaticResource StringToVisibilityConverter}}">
                         <ProgressRing Margin="0,12,0,0" Width="24" Height="24" IsActive="{Binding IsContactLoading}" Visibility="{Binding IsContactLoading, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Center" />
                         <TextBlock Margin="0,12,0,0" Text="{Binding ContactMessage}" Style="{StaticResource DivarBodyStyle}" TextAlignment="Center" Visibility="{Binding HasContactMessage, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <TextBlock Margin="0,12,0,0" Text="{Binding PhoneNumber}" Style="{StaticResource DivarSectionTitleStyle}" TextAlignment="Center" Visibility="{Binding HasPhoneNumber, Converter={StaticResource BooleanToVisibilityConverter}}" />
